@@ -36,7 +36,7 @@ exports.checkRequestHeaders = function (req, res, next) {
 };
 
 /**
-* Validates bookmark
+* Validates recipe
 */
 exports.checkRequestData = function (req, res, next) {
   if (req.method == 'POST' || req.method == 'PUT') {
@@ -49,9 +49,8 @@ var report = contracts.validate(req.body, {
   "additionalProperties": false,
   "properties": {
     "name": { "type": "string", "required": required },
-    "famille": { "type": "string", "required": required },
-    "quantite": { "type": "number", "required": required },
-    "saison": { "type": "string", "required": required }
+    "persons": { "type": "number", "required": required },
+    "ingredients": { "type": "array", "items": { "type": "number" }, "required": required }
   }
 });
 // Respond with 400 and detailed errors if applicable
@@ -86,15 +85,15 @@ exports.checkIdParameter = function (req, res, next, id) {
 // Update
 if (req.method == 'PUT') {
   if ('undefined' == typeof req.body.id) {
-    req.body.id = req.param('id'); // Undefined, use URL
-  } else if (req.body.id != req.param('id')) {
-    return next({"message": "Invalid ingredient ID", "code": 400}); // Defined, and inconsistent with URL
-  }
+req.body.id = req.param('id'); // Undefined, use URL
+} else if (req.body.id != req.param('id')) {
+return next({"message": "Invalid recipe ID", "code": 400}); // Defined, and inconsistent with URL
+}
 }
 // Create
 if (req.method == 'POST') {
   if ('undefined' != typeof req.body.id) {
-    return next({"message": "Ingredient ID must not be defined", "code": 400});
+    return next({"message": "recipe ID must not be defined", "code": 400});
   }
 }
 // Everything went OK
