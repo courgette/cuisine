@@ -30,7 +30,7 @@ exports.errorHandler = function (options) {
 exports.checkRequestHeaders = function (req, res, next) {
   if (!req.accepts('application/json'))
     return res.respond('You must accept content-type application/json', 406);
-  if ((req.method == 'PUT' || req.method == 'POST') && req.header('content-type') != 'application/json')
+  if ((req.method == 'PUT' || req.method == 'POST') && req.header('content-type') != 'application/json; charset=UTF-8')
     return res.respond('You must declare your content-type as application/json', 406);
   return next();
 };
@@ -50,9 +50,30 @@ var report = contracts.validate(req.body, {
   "properties": {
     "name": { "type": "string", "required": required },
     "persons": { "type": "number", "required": required },
-    "ingredients": { "type": "array", "items": { "type": "number" }, "required": required }
+    "ingredients": {
+      "type": "array",
+      "items": {
+        "type":"object",
+        "ingredient": {
+          "id": {
+            "type":"number"
+          },
+          "qte": {
+            "type": "number"
+          }
+        }
+      }, "required": required
+    }
   }
 });
+
+/*
+"ingredients": { 
+      "type": "array", 
+      "items": { 
+        "type": "number" 
+      }, "required": required }
+*/
 // Respond with 400 and detailed errors if applicable
 if (report.errors.length > 0) {
   return res.respond('Invalid data: ' + report.errors.map(function (error) {

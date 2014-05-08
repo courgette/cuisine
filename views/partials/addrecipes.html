@@ -1,1 +1,22 @@
-<div>test</div>
+<form class="inner box" ng-controller="addRecipesCtrl" ng-submit="validateRecipes()">
+  <fieldset>
+    <legend>C'est quoi le nom de votre recette</legend>
+    <label for="name-recipes">Nom de votre recette :</label>
+    <input class="form-text" id="name-recipes" ng-model="recipes.name" type="text" placeholder="Entrez le nom de la recette..."/>
+  </fieldset>
+  <fieldset>
+    <legend>Pour combien de personnes ?</legend>
+    <label for="name-persons">Nombre de personnes :</label>
+    <input class="form-text" id="name-persons" ng-model="recipes.persons" type="number" placeholder="Entrez le nombre de personnes..."/>
+  </fieldset>
+  <fieldset>
+    <legend>Vos ingrédients ?</legend>
+    <label for="name-ingredient">Nom de l'ingrédient</label>
+    <input class="form-text" id="name-ingredient" ng-model="recipes.ingredient" type="text" placeholder="Entrez le nom de l'ingrédient..."/><br/>
+    <label for="name-qte">Quantité</label>
+    <input class="form-text" id="name-qte" ng-model="recipes.qte" type="number" placeholder="Entrez la quantité..."/><br/>
+    <button class="btn classic-btn">Ajoutez un ingrédient</button>
+  </fieldset>
+
+  <input class="btn classic-btn" type="submit" value="Valider ma recette"/>
+</form>

@@ -1,0 +1,39 @@
+<form class="inner box" ng-controller="addIngredientCtrl" ng-submit="validateIngredient()">
+  <fieldset>
+    <legend>Nom de l'ingrédient</legend>
+    <label for="name-ingredient">Entrez le nom de l'ingrédient : </label>
+    <input class="form-text" id="name-ingredient" type="text" ng-model="ingredient.name" placeholder="Entez le nom de l'ingrédient" />
+  </fieldset>
+  <fieldset>
+    <legend>Famille de l'ingrédient</legend>
+    <label for="family-ingredient">Choisissez la famille de l'ingrédient : </label>
+    <select id="family-ingredient" ng-model="ingredient.family">
+      <option value="" disabled selected>Choisissez votre famille d'ingrédient</option>
+      <option value="fruits-legumes">Fruits et légumes</option>
+      <option value="cereales-feculents">Céréales et féculents</option>
+      <option value="produits-laitiers">Produits laitiers</option>
+      <option value="viandes-poissons-oeufs">Viandes, Poissons, oeufs</option>
+      <option value="corps-gras">Corps gras</option>
+      <option value="sucre">Sucre</option>
+    </select>
+  </fieldset>
+  <fieldset ng-show="ingredient.family=='fruits-legumes'">
+    <legend>Saison</legend>
+    <label for="season-ingredient">Choisissez les mois :</label>
+    <select multiple="" ng-model="ingredient.season" id="season-ingredient">
+      <option value="janvier">Janvier</option>
+      <option value="fevrier">Février</option>
+      <option value="mars">Mars</option>
+      <option value="avril">Avril</option>
+      <option value="mai">Mai</option>
+      <option value="juin">Juin</option>
+      <option value="juillet">Juillet</option>
+      <option value="aout">Août</option>
+      <option value="septembre">Septembre</option>
+      <option value="octobre">Octobre</option>
+      <option value="novembre">Novembre</option>
+      <option value="decembre">Décembre</option>
+    </select>
+  </fieldset>
+  <input type="submit" class="btn classic-btn" value="Validez votre ingrédient">
+</form>

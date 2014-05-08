@@ -3,6 +3,9 @@
   <ul>
     <li></li>
   </ul>
-  <p ng-controller="hi" ng-repeat="t in recipe.ingredients">{{ingredient.name}}</p>
+  <p ng-controller="hi" ng-repeat="t in recipe.ingredients">
+    {{ingredient.name}}<br/>
+    {{qte}}
+  </p>
   <p>{{recipe.famille}}</p>
 </div>

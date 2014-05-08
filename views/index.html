@@ -3,16 +3,23 @@
   <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width" initial-scale="1"/>
+    <link rel="stylesheet" href="/css/lib/artichaut.css">
+    <link rel="stylesheet" href="/css/lib/artichaut-buttons.css">
+    <link rel="stylesheet" href="/css/lib/artichaut-form.css">
     <title>Site de Cuisine</title>
   </head>
   <body>
     <ul class="menu">
       <li><a href="#/">Home</a></li>
-      <li><a href="#/addrecipes">addrecipes</a></li>
+      <li><a href="#/addrecipes">Add recipes</a></li>
+      <li><a href="#/addingredient">Add ingrédient</a></li>
+      <li><a href="#/allingredients">All ingrédients</a></li>
     </ul>
     <div ng-view></div>
     <script type="text/javascript" src="/js/lib/angular.min.js"></script>
     <script type="text/javascript" src="/js/lib/angular-route.min.js"></script>
+    <script type="text/javascript" src="/js/lib/lodash.min.js"></script>
+    <script type="text/javascript" src="/js/lib/restangular.min.js"></script>
     <script type="text/javascript" src="/js/app.js"></script>
     <script type="text/javascript" src="/js/controllers.js"></script>
   </body>

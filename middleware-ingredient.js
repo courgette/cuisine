@@ -30,7 +30,7 @@ exports.errorHandler = function (options) {
 exports.checkRequestHeaders = function (req, res, next) {
   if (!req.accepts('application/json'))
     return res.respond('You must accept content-type application/json', 406);
-  if ((req.method == 'PUT' || req.method == 'POST') && req.header('content-type') != 'application/json')
+  if ((req.method == 'PUT' || req.method == 'POST') && req.header('content-type') != 'application/json; charset=UTF-8')
     return res.respond('You must declare your content-type as application/json', 406);
   return next();
 };
@@ -49,9 +49,8 @@ var report = contracts.validate(req.body, {
   "additionalProperties": false,
   "properties": {
     "name": { "type": "string", "required": required },
-    "famille": { "type": "string", "required": required },
-    "quantite": { "type": "number", "required": required },
-    "saison": { "type": "string", "required": required }
+    "family": { "type": "string", "required": required },
+    "season": { "type": "array", "items": { "type": "string" }}
   }
 });
 // Respond with 400 and detailed errors if applicable
