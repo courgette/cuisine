@@ -1,20 +1,5 @@
 angular.module('myApp.controllers', []).
 
-controller('hello', function($scope, $http) {
-  $http.get('/recipes/recipe/3').
-    success(function(data) {
-      $scope.recipe = data;
-    });
-}).
-
-controller('hi', function($scope, $http) {
-  $http.get('ingredients/ingredient/'+$scope.t.id).
-    success(function(d){
-      $scope.ingredient = d;
-    });
-  $scope.qte = $scope.t.qte;
-}).
-
 controller('addRecipesCtrl', function($scope, $http) {
   $scope.validateRecipes = function() {
     console.log('dsqdsq');
@@ -24,12 +9,6 @@ controller('addRecipesCtrl', function($scope, $http) {
 
 controller('addIngredientCtrl', function($scope, $http, Restangular) {
   var ingredients = Restangular.all('ingredients');
-  var allIngredients = ingredients.getList();
-
-  allIngredients.then(function(ingredient) {
-
-  });
-
 
   $scope.validateIngredient = function() {
     var newIngredient = {};
@@ -46,8 +25,51 @@ controller('addIngredientCtrl', function($scope, $http, Restangular) {
       };
     }
     ingredients.post(newIngredient);
-    console.log(newIngredient);
     //var all = Restangular.all('ingredients');
     
+  };
+}).
+controller('allIngredientCtrl', function($scope, $http, Restangular) {
+  var ingredients = Restangular.all('ingredients'),
+      listIngredients = ingredients.getList();
+
+  listIngredients.then(function(ArrayIngredient) {
+    $scope.ingredients = ArrayIngredient;
+    ArrayIngredient.forEach(function(ingredient) {
+      $http.get(ingredient).success(function(data){
+        $scope.ingredient = data;
+      });
+    });
+  });
+
+}).
+controller('getOneIngredient', function($scope, $http){
+  $http.get($scope.url).
+    success(function(data) {
+      $scope.ingredient = data;
+    });
+  $scope.deleteIngredient = function(id){
+    if(confirm("Vous êtes sûr de vouloir supprimer cet ingrédient ?") === true) {
+      $http.delete('/ingredients/ingredient/'+id);
+      window.location.reload();
+    }
+  };
+  $scope.updateIngredient = function(id) {
+    
+    var upIngredient = {};
+    if($scope.ingredient.season === undefined) {
+      upIngredient = {
+        name:$scope.ingredient.name,
+        family:$scope.ingredient.family
+      };
+    }else {
+      upIngredient = {
+        name:$scope.ingredient.name,
+        family:$scope.ingredient.family,
+        season:$scope.ingredient.season
+      };
+    }
+    $http.put('ingredients/ingredient/'+id, upIngredient);
+    window.location.reload();
   };
 });

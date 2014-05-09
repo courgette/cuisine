@@ -20,13 +20,16 @@ config(['$routeProvider', function($routeProvider) {
     templateUrl: 'partials/addingredient.html',
     controller: 'addIngredientCtrl'
   }).
-  when('/allingredient', {
-    templateUrl: 'partials/allingredient.html',
+  when('/allingredients', {
+    templateUrl: 'partials/allingredients.html',
     controller: 'allIngredientCtrl'
   }).
   otherwise({
     redirectTo: '/'
   });
   
-}]);
+}]).
+config(function($httpProvider){
+   $httpProvider.defaults.headers.put['Content-Type'] ='application/json; charset=UTF-8';
+});
 //

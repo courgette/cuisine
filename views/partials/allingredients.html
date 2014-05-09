@@ -1,0 +1,60 @@
+<datalist id="months">
+  <option value="janvier">Janvier</option>
+  <option value="fevrier">Février</option>
+  <option value="mars">Mars</option>
+  <option value="avril">Avril</option>
+  <option value="mai">Mai</option>
+  <option value="juin">Juin</option>
+  <option value="juillet">Juillet</option>
+  <option value="aout">Août</option>
+  <option value="septembre">Septembre</option>
+  <option value="octobre">Octobre</option>
+  <option value="novembre">Novembre</option>
+  <option value="decembre">Décembre</option>
+</datalist>
+
+<ul ng-controller="allIngredientCtrl" class="dtable w100">
+  <li ng-controller="getOneIngredient" ng-repeat="url in ingredients">
+    <div>
+      {{ingredient.name}}
+      <form ng-show="isReplyFormOpen" ng-submit="updateIngredient(ingredient.id)">
+      <div class="form-group">
+        <label for="">Nom de l'ingrédient</label>
+        <input type="text" ng-model="ingredient.name" value="{{ingredient.name}}"/>
+      </div>
+      <div class="from-group">
+        <label for="">Famille de l'ingrédient</label>
+        <select ng-model="ingredient.family">
+          <option value="fruits-legumes">Fruits et légumes</option>
+          <option value="cereales-feculents">Céréales et féculents</option>
+          <option value="produits-laitiers">Produits laitiers</option>
+          <option value="viandes-poissons-oeufs">Viandes, Poissons, oeufs</option>
+          <option value="corps-gras">Corps gras</option>
+          <option value="sucre">Sucre</option>
+        </select>
+      </div>
+      <div ng-if="ingredient.season">
+        <label for="">Saison de l'ingrédient</label>
+        <select ng-model="ingredient.season" multiple>
+          <option value="janvier">Janvier</option>
+          <option value="fevrier">Février</option>
+          <option value="mars">Mars</option>
+          <option value="avril">Avril</option>
+          <option value="mai">Mai</option>
+          <option value="juin">Juin</option>
+          <option value="juillet">Juillet</option>
+          <option value="aout">Août</option>
+          <option value="septembre">Septembre</option>
+          <option value="octobre">Octobre</option>
+          <option value="novembre">Novembre</option>
+          <option value="decembre">Décembre</option>
+        </select>
+      </div>
+      <input class='btn classic-btn' type="submit" value="mettre à jour l'ingrédient"/>
+    </form>
+    </div>
+    
+    <button ng-click="isReplyFormOpen = !isReplyFormOpen" class="btn validate-btn" >Edit</button>
+    <button ng-click="deleteIngredient(ingredient.id)" class="btn important-btn">Delete</button>
+  </li>
+</ul>
