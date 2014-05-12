@@ -1,0 +1,18 @@
+<ul ng-controller="allRecipesCtrl" class="inner">
+  <li ng-controller="getOneRecipe" ng-repeat="url in recipes">
+    <h3>{{recipe.name}}</h3>
+    <div>pour {{recipe.persons}} personne(s)</div>
+    <ul>
+      <div ng-repeat="ingredient in recipe.ingredient">
+        {{ingredient.qte}}
+      </div>
+      <li ng-controller="getIngredient" ng-repeat="ingredient in recipe.ingredients" data-id="{{ingredient.id}}" class="url-ingredient">
+
+        <div>
+          {{ingredient.qte}}
+          {{ing.name}}
+        </div>
+      </li>
+    </ul>
+  </li>
+</ul>

@@ -1,22 +1,86 @@
-<form class="inner box" ng-controller="addRecipesCtrl" ng-submit="validateRecipes()">
-  <fieldset>
-    <legend>C'est quoi le nom de votre recette</legend>
-    <label for="name-recipes">Nom de votre recette :</label>
-    <input class="form-text" id="name-recipes" ng-model="recipes.name" type="text" placeholder="Entrez le nom de la recette..."/>
-  </fieldset>
-  <fieldset>
-    <legend>Pour combien de personnes ?</legend>
-    <label for="name-persons">Nombre de personnes :</label>
-    <input class="form-text" id="name-persons" ng-model="recipes.persons" type="number" placeholder="Entrez le nombre de personnes..."/>
-  </fieldset>
-  <fieldset>
-    <legend>Vos ingrédients ?</legend>
-    <label for="name-ingredient">Nom de l'ingrédient</label>
-    <input class="form-text" id="name-ingredient" ng-model="recipes.ingredient" type="text" placeholder="Entrez le nom de l'ingrédient..."/><br/>
-    <label for="name-qte">Quantité</label>
-    <input class="form-text" id="name-qte" ng-model="recipes.qte" type="number" placeholder="Entrez la quantité..."/><br/>
-    <button class="btn classic-btn">Ajoutez un ingrédient</button>
-  </fieldset>
+<datalist>
+  
+</datalist>
 
-  <input class="btn classic-btn" type="submit" value="Valider ma recette"/>
-</form>
+<div ng-controller="addRecipesCtrl">
+
+  <form name="addingredient" class="inner box" ng-controller="globalRecipes" ng-submit="validateRecipes()">
+    <fieldset>
+      <legend>C'est quoi le nom de votre recette</legend>
+      <label for="name-recipes">Nom de votre recette :</label>
+      <input class="form-text" id="name-recipes" ng-model="recipes.name" type="text" placeholder="Entrez le nom de la recette..."/>
+    </fieldset>
+    <fieldset>
+      <legend>Pour combien de personnes ?</legend>
+      <label for="name-persons">Nombre de personnes :</label>
+      <input class="form-text" id="name-persons" ng-model="recipes.persons" type="number" placeholder="Entrez le nombre de personnes..."/>
+    </fieldset>
+    <fieldset >
+      <legend>Vos ingrédients ?</legend>
+
+      <script type="text/ng-template" id="ingredientinsert">
+        <div class="ingredientinsert">
+          <label for="name-ingredient">Nom de l'ingrédient</label>
+          <select name="selectingredients" class="selectIngredients">
+            <option ng-controller="OneIngredient" ng-repeat="url in ingredients" value="{{ingredient.id}}">{{ingredient.name}}</option>
+          </select><br/>
+
+          <label for="name-qte">Quantité</label>
+          <input class="form-text" id="name-qte" class="name-qte" type="number" placeholder="Entrez la quantité..."/>
+          <div name="ingredientinsert" ng-click="insertIngredient()" class="btn classic-btn">Ajoutez un ingrédient</div>
+        </div>
+    </script>
+    
+   <div ingredientinsert></div>
+      Si votre ingrédient n'est pas dans la liste :
+      <div class="btn classic-btn" ng-click="showAddIngredient()">Nouvel ingrédient</div>
+    </fieldset>
+
+    <input class="btn classic-btn" type="submit" value="Valider ma recette"/>
+  </form>
+
+  <div id="addNewIngredient" class="dnone">
+        
+    <form class="inner box" ng-controller="addIngredientCtrl" ng-submit="validateIngredient()">
+      <fieldset>
+        <legend>Nom de l'ingrédient</legend>
+        <label for="name-ingredient">Entrez le nom de l'ingrédient : </label>
+        <input class="form-text" id="name-ingredient" type="text" ng-model="ingredient.name" placeholder="Entez le nom de l'ingrédient" />
+      </fieldset>
+      <fieldset>
+        <legend>Famille de l'ingrédient</legend>
+        <label for="family-ingredient">Choisissez la famille de l'ingrédient : </label>
+        <select id="family-ingredient" ng-model="ingredient.family">
+          <option value="" disabled selected>Choisissez votre famille d'ingrédient</option>
+          <option value="fruits-legumes">Fruits et légumes</option>
+          <option value="cereales-feculents">Céréales et féculents</option>
+          <option value="produits-laitiers">Produits laitiers</option>
+          <option value="viandes-poissons-oeufs">Viandes, Poissons, oeufs</option>
+          <option value="corps-gras">Corps gras</option>
+          <option value="sucre">Sucre</option>
+        </select>
+      </fieldset>
+      <fieldset ng-show="ingredient.family=='fruits-legumes'">
+        <legend>Saison</legend>
+        <label for="season-ingredient">Choisissez les mois :</label>
+        <select multiple="" ng-model="ingredient.season" id="season-ingredient">
+          <option value="janvier">Janvier</option>
+          <option value="fevrier">Février</option>
+          <option value="mars">Mars</option>
+          <option value="avril">Avril</option>
+          <option value="mai">Mai</option>
+          <option value="juin">Juin</option>
+          <option value="juillet">Juillet</option>
+          <option value="aout">Août</option>
+          <option value="septembre">Septembre</option>
+          <option value="octobre">Octobre</option>
+          <option value="novembre">Novembre</option>
+          <option value="decembre">Décembre</option>
+        </select>
+      </fieldset>
+      <input type="submit" class="btn classic-btn" value="Validez votre ingrédient">
+    </form>
+    
+  </div>
+
+</div>

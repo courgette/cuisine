@@ -17,7 +17,7 @@ app.configure('production', function () {
 // Montage de l'API REST sur /ingredients
 app.use('/ingredients', app.bookmarks_app = require('./ingredient-rest')());
 app.use('/recipes', app.bookmarks_app = require('./recipe-rest')());
- 
+
 // Homepage
 app.get('/', function (req, res) {
   res.sendfile('index.html', { root: __dirname + "/views" });

@@ -1,7 +1,8 @@
 angular.module( 'myApp', [
   'ngRoute',
   'restangular',
-  'myApp.controllers'
+  'myApp.controllers',
+  'myApp.directives'
 ]).
 config(function(RestangularProvider){
   RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
@@ -9,8 +10,7 @@ config(function(RestangularProvider){
 config(['$routeProvider', function($routeProvider) {
   $routeProvider
   .when('/', {
-    templateUrl: 'partials/home.html',
-    controller: 'hello'
+    templateUrl: 'partials/home.html'
   }).
   when('/addrecipes', {
     templateUrl: 'partials/addrecipes.html',
@@ -24,12 +24,17 @@ config(['$routeProvider', function($routeProvider) {
     templateUrl: 'partials/allingredients.html',
     controller: 'allIngredientCtrl'
   }).
+  when('/allrecipes', {
+    templateUrl: 'partials/allrecipes.html',
+    controller: 'allRecipesCtrl'
+  }).
   otherwise({
     redirectTo: '/'
   });
   
 }]).
 config(function($httpProvider){
-   $httpProvider.defaults.headers.put['Content-Type'] ='application/json; charset=UTF-8';
+  $httpProvider.defaults.headers.post['Content-Type'] ='application/json; charset=UTF-8';
+  $httpProvider.defaults.headers.put['Content-Type'] ='application/json; charset=UTF-8';
 });
 //

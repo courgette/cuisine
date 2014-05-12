@@ -28,7 +28,6 @@ exports.errorHandler = function (options) {
 * Checks Accept and Content-Type headers
 */
 exports.checkRequestHeaders = function (req, res, next) {
-  console.log(req.header('content-type'));
   if (!req.accepts('application/json'))
     return res.respond('You must accept content-type application/json', 406);
   if ((req.method == 'PUT' || req.method == 'POST') && req.header('content-type') != 'application/json; charset=UTF-8')

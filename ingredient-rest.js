@@ -30,9 +30,11 @@ module.exports = function () {
 });*/
  
   app.post('/', m.dbAction(app.db, 'save'));
-  app.get( '/', m.dbAction(app.db, 'fetchAll', function (ids) { return ids.map(function (id) {
-  // URIs depend on mount route
-  return app.route + (app.route.charAt(app.route.length-1) == '/' ? '' : '/') + 'ingredient/' + id; }); }));
+  app.get( '/', m.dbAction(app.db, 'fetchAll', function (ids) {
+    return ids.map(function (id) {
+      return app.route + (app.route.charAt(app.route.length-1) == '/' ? '' : '/') + 'ingredient/' + id;
+    });
+  }));
   app.get( '/ingredient/:id', m.dbAction(app.db, 'fetchOne'));
   app.put( '/ingredient/:id', m.dbAction(app.db, 'save'));
   app.del( '/', m.dbAction(app.db, 'deleteAll'));
