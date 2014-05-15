@@ -1,0 +1,29 @@
+<ul ng-controller="oldMenus" class="inner">
+  <li ng-controller="oneMenu" ng-repeat="url in menus">
+    <h2>{{menu.name}}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Lundi</th>
+          <th>Mardi</th>
+          <th>Mercredi</th>
+          <th>Jeudi</th>
+          <th>Vendredi</th>
+          <th>Samedi</th>
+          <th>Dimanche</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{menu.lundi}}</td>
+          <td>{{menu.mardi}}</td>
+          <td>{{menu.mercredi}}</td>
+          <td>{{menu.jeudi}}</td>
+          <td>{{menu.vendredi}}</td>
+          <td>{{menu.samedi}}</td>
+          <td>{{menu.dimanche}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>

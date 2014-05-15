@@ -1,0 +1,70 @@
+<datalist id="recipes" ng-controller="allRecipesCtrl">
+  <option ng-controller="getOneRecipe" ng-repeat="url in recipes">{{recipe.name}}</option>  
+</datalist>
+
+<form action="" ng-controller="menuCtrl" ng-submit="addMenu()">
+  <div class="form-group">
+    <label for="">Nom du menu</label>
+    <input class="form-text" type="text" ng-model="menu.name"/>
+  </div>
+  <table class="menu">
+    <thead>
+      <tr>
+        <th>Lundi</th>
+        <th>Mardi</th>
+        <th>Mercredi</th>
+        <th>Jeudi</th>
+        <th>Vendredi</th>
+        <th>Samedi</th>
+        <th>Dimanche</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <label for="">Choisisez votre recette :</label><br/>
+          <input ng-model="menu.lundi" list="recipes" type="text"/>
+          <div>ou</div>
+          <a class="btn classic-btn" href="#/addrecipes">Ajoutez une nouvel recette</a>
+        </td>
+        <td>
+          <label for="">Choisisez votre recette :</label><br/>
+          <input ng-model="menu.mardi" list="recipes" type="text"/>
+          <div>ou</div>
+          <a class="btn classic-btn" href="#/addrecipes">Ajoutez une nouvel recette</a>
+        </td>
+        <td>
+          <label for="">Choisisez votre recette :</label><br/>
+          <input ng-model="menu.mercredi" list="recipes" type="text"/>
+          <div>ou</div>
+          <a class="btn classic-btn" href="#/addrecipes">Ajoutez une nouvel recette</a>
+        </td>
+        <td>
+          <label for="">Choisisez votre recette :</label><br/>
+          <input ng-model="menu.jeudi" list="recipes" type="text"/>
+          <div>ou</div>
+          <a class="btn classic-btn" href="#/addrecipes">Ajoutez une nouvel recette</a>
+        </td>
+        <td>
+          <label for="">Choisisez votre recette :</label><br/>
+          <input ng-model="menu.vendredi" list="recipes" type="text"/>
+          <div>ou</div>
+          <a class="btn classic-btn" href="#/addrecipes">Ajoutez une nouvel recette</a>
+        </td>
+        <td>
+          <label for="">Choisisez votre recette :</label><br/>
+          <input ng-model="menu.samedi" list="recipes" type="text"/>
+          <div>ou</div>
+          <a class="btn classic-btn" href="#/addrecipes">Ajoutez une nouvel recette</a>
+        </td>
+        <td>
+          <label for="">Choisisez votre recette :</label><br/>
+          <input ng-model="menu.dimanche" list="recipes" type="text"/>
+          <div>ou</div>
+          <a class="btn classic-btn" href="#/addrecipes">Ajoutez une nouvel recette</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <input class="btn classic-btn" type="submit" value="Je valide mon menu">
+</form>

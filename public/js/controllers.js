@@ -3,15 +3,10 @@ angular.module('myApp.controllers', []).
 controller('globalRecipes', function($scope, $http) {
   $scope.validateRecipes = function() {
 
-    var newRecipes = {};
-    /*var form = document.addingredient;
-    
-    var toto = form.elements['selectingredients'].selectedIndex;
-    console.log(form.elements['selectingredients'].options[toto].value);
-    console.log('dsqdsq');*/
-    //console.log($scope.recipes.name);
-    var ingredientinsert = document.querySelectorAll('.ingredientinsert'),
+    var newRecipes = {},
+        ingredientinsert = document.querySelectorAll('.ingredientinsert'),
         globalIngredientsArr = [];
+
     Array.prototype.forEach.call(ingredientinsert, function(el, i){
       var select = el.querySelector('select'),
           valueOption = select.options[select.options.selectedIndex].value,
@@ -23,8 +18,6 @@ controller('globalRecipes', function($scope, $http) {
         'id':valueOption,
         'qte':nameqte
       });
-      console.log('option : '+valueOption);
-      console.log('input : '+nameqte);
     });
     newIngredient = {
       "name":$scope.recipes.name,
@@ -42,14 +35,6 @@ controller('globalRecipes', function($scope, $http) {
       hideElement.classList.add('dnone');
     }
   };
-
-  /*var lastIngredient = document.getElementById('insertIngredient');
-      var clone = lastIngredient.cloneNode(true);
-
-  $scope.insertIngredient = function() {
-    lastIngredient.insertAdjacentHTML('afterend', '<div class="newIngredient">'+clone.innerHTML+'</div>');
-    console.log(clone.innerHTML);
-  };*/
 }).
 
 controller('addRecipesCtrl', function($scope, $http) {
@@ -167,11 +152,87 @@ controller('getOneRecipe', function($scope, $http){
   console.log(urlIngredient);*/
 }).
 controller('getIngredient', function($scope, $http){
-  console.log($scope.ingredient.id);
 
   $http.get('ingredients/ingredient/'+$scope.ingredient.id).
     success(function(data) {
       $scope.ing = data;
-      console.log(data);
     });
+}).
+controller('upRecipesCtrl', function($scope, $routeParams, $http){
+  var id = $routeParams.id,
+      upIngredient = {};
+  $http.get('/recipes/recipe/'+id).
+    success(function(data) {
+      $scope.recipe = data;
+    });
+  $scope.updateRecipe = function() {
+    var ingredientcontainer = document.querySelectorAll('.container-ingredient'),
+        globalIngredientsArr = [],
+        ingredientsList = document.getElementById('ingredients');
+
+    Array.prototype.forEach.call(ingredientcontainer, function(el, i){
+      var ingredients = el.querySelector('.ingredient-recipe').getAttribute('data-id'),
+          ingredientValue= el.querySelector('.ingredient-recipe').value,
+          qte = el.querySelector('.ingredient-qte').value;
+
+      var idIngredient = ingredientsList.querySelector('[data-text='+ingredientValue+']').getAttribute('data-id');
+
+      globalIngredientsArr.push({
+        'id':idIngredient,
+        'qte':qte
+      });
+    });
+    upIngredient = {
+      "name":$scope.recipe.name,
+      "persons":parseFloat($scope.recipe.persons),
+      "ingredients":globalIngredientsArr
+    };
+    $http.put('/recipes/recipe/'+id, upIngredient);
+    console.log(upIngredient);
+  };
+  $scope.deleteRecipe = function(id) {
+    if(confirm("Vous êtes sûr de vouloir supprimer cet ingrédient ?") === true) {
+      $http.delete('/recipes/recipe/'+id);
+      window.location = '#/allrecipes';
+    }
+  };
+}).
+controller('menuCtrl', function($scope, $http) {
+  var menu = {};
+  $scope.addMenu = function() {
+    menu = {
+      "name":$scope.menu.name,
+      "lundi":$scope.menu.lundi,
+      "mardi":$scope.menu.mardi,
+      "mercredi":$scope.menu.mercredi,
+      "jeudi":$scope.menu.jeudi,
+      "vendredi":$scope.menu.vendredi,
+      "samedi":$scope.menu.samedi,
+      "dimanche":$scope.menu.dimanche
+    };
+    $http.post('/menus', menu);
+  };
+}).
+controller('oldMenus', function($scope, $http, Restangular){
+  var menus = Restangular.all('menus'),
+      listMenus = menus.getList();
+
+  listMenus.then(function(ArrayMenus) {
+    $scope.menus = ArrayMenus;
+    ArrayMenus.forEach(function(menus) {
+      $http.get(menus).success(function(data){
+        $scope.menu = data;
+      });
+    });
+  });
+}).
+controller('oneMenu', function($scope, $http){
+  $http.get($scope.url).
+    success(function(data) {
+      $scope.menu = data;
+      //console.log($scope.recipe.ingredients);
+    });
+  /*var urlIngredient = document.querySelectorAll('.url-ingredient');
+
+  console.log(urlIngredient);*/
 });

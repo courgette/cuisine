@@ -1,0 +1,22 @@
+<datalist id="ingredients" ng-controller="allIngredientCtrl">
+  <option ng-controller="getOneIngredient" data-text="{{ingredient.name}}" data-id="{{ingredient.id}}" ng-repeat="url in ingredients" value="{{ingredient.name}}">{{ingredient.name}}</option>
+</datalist>
+
+<form ng-controller="upRecipesCtrl" class="inner" ng-submit="updateRecipe()">
+  <div class="form-group">
+    <label for="">Nom de la recette :</label>
+    <input class="form-text" type="text" ng-model="recipe.name"/>
+  </div>
+  <div class="form-group">
+    <label for="">Nombre de personnes</label>
+    <input class="form-text" type="text" ng-model="recipe.persons"/>
+  </div>
+  <div ng-controller="getIngredient" ng-repeat="ingredient in recipe.ingredients" data-id="{{ingredient.id}}" class="container-ingredient form-group">
+      <label for="">Ingredient</label>
+      <input type="text" list="ingredients" data-id="{{ing.id}}" value="{{ing.name}}" class="form-text ingredient-recipe"/>
+      <label for="">Quantité</label>
+      <input type="text" ng-model="ingredient.qte" class="form-text ingredient-qte" value="{{ingredient.qte}}"/>
+  </div>
+  <input class="btn classic-btn" type="submit" value="Mettre à jour la recette"/>
+  <div ng-click="deleteRecipe(recipe.id)" class="btn important-btn">Supprimer la recette</div>
+</form>

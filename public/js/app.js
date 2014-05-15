@@ -28,6 +28,14 @@ config(['$routeProvider', function($routeProvider) {
     templateUrl: 'partials/allrecipes.html',
     controller: 'allRecipesCtrl'
   }).
+  when('/updaterecipes/:id', {
+    templateUrl: 'partials/uprecipes.html',
+    controller: 'upRecipesCtrl'
+  }).
+  when('/oldmenus', {
+    templateUrl: 'partials/oldmenus.html',
+    controller: 'oldMenus'
+  }).
   otherwise({
     redirectTo: '/'
   });

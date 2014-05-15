@@ -36,7 +36,7 @@ exports.checkRequestHeaders = function (req, res, next) {
 };
 
 /**
-* Validates recipe
+* Validates bookmark
 */
 exports.checkRequestData = function (req, res, next) {
   if (req.method == 'POST' || req.method == 'PUT') {
@@ -49,24 +49,15 @@ var report = contracts.validate(req.body, {
   "additionalProperties": false,
   "properties": {
     "name": { "type": "string", "required": required },
-    "persons": { "type": "number", "required": required },
-    "ingredients": {
-      "type": "array",
-      "items": {
-        "type":"object",
-        "ingredient": {
-          "id": {
-            "type":"number"
-          },
-          "qte": {
-            "type": "number"
-          }
-        }
-      }, "required": required
-    }
+    "lundi": { "type": "string", "required": required },
+    "mardi": { "type": "string", "required": required },
+    "mercredi": { "type": "string", "required": required },
+    "jeudi": { "type": "string", "required": required },
+    "vendredi": { "type": "string", "required": required },
+    "samedi": { "type": "string", "required": required },
+    "dimanche": { "type": "string", "required": required }
   }
 });
-
 // Respond with 400 and detailed errors if applicable
 if (report.errors.length > 0) {
   return res.respond('Invalid data: ' + report.errors.map(function (error) {
@@ -99,15 +90,15 @@ exports.checkIdParameter = function (req, res, next, id) {
 // Update
 if (req.method == 'PUT') {
   if ('undefined' == typeof req.body.id) {
-req.body.id = req.param('id'); // Undefined, use URL
-} else if (req.body.id != req.param('id')) {
-return next({"message": "Invalid recipe ID", "code": 400}); // Defined, and inconsistent with URL
-}
+    req.body.id = req.param('id'); // Undefined, use URL
+  } else if (req.body.id != req.param('id')) {
+    return next({"message": "Invalid menu ID", "code": 400}); // Defined, and inconsistent with URL
+  }
 }
 // Create
 if (req.method == 'POST') {
   if ('undefined' != typeof req.body.id) {
-    return next({"message": "recipe ID must not be defined", "code": 400});
+    return next({"message": "menu ID must not be defined", "code": 400});
   }
 }
 // Everything went OK
