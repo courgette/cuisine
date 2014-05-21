@@ -261,6 +261,12 @@ controller('oneMenu', function($scope, $http, $q){
       $scope.menu = data;
       //console.log($scope.recipe.ingredients);
     });
+  $scope.supMenu = function(id) {
+    if(confirm("Vous êtes sûr de vouloir supprimer ce menu ?") === true) {
+      $http.delete('/menus/menu/'+id);
+      window.location = '#/oldmenus';
+    }
+  };
   $scope.getListeCourse = function() {
     var menus = document.querySelectorAll('.menus > td'),
         globalIngredientsArr = [],
@@ -319,7 +325,41 @@ controller('oneMenu', function($scope, $http, $q){
               "qte":sums[key]+indice[key]
             });
           }
-          $http.post('/shops', shopList);
+          $http.post('/shops', shopList).success(function(data) {
+            var upMenu = {
+              "name":$scope.menu.name,
+              "lundi":[{
+                "name":$scope.menu.lundi[0].name,
+                "id":$scope.menu.lundi[0].id
+              }],
+              "mardi":[{
+                "name":$scope.menu.mardi[0].name,
+                "id":$scope.menu.mardi[0].id
+              }],
+              "mercredi":[{
+                "name":$scope.menu.mercredi[0].name,
+                "id":$scope.menu.mercredi[0].id
+              }],
+              "jeudi":[{
+                "name":$scope.menu.jeudi[0].name,
+                "id":$scope.menu.jeudi[0].id
+              }],
+              "vendredi":[{
+                "name":$scope.menu.vendredi[0].name,
+                "id":$scope.menu.vendredi[0].id
+              }],
+              "samedi":[{
+                "name":$scope.menu.samedi[0].name,
+                "id":$scope.menu.samedi[0].id
+              }],
+              "dimanche":[{
+                "name":$scope.menu.dimanche[0].name,
+                "id":$scope.menu.dimanche[0].id
+              }],
+              "id_listshop":data.id
+            };
+            $http.put('/menus/menu/'+$scope.menu.id, upMenu);
+          });
         });
       });
     }, 500);

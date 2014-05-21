@@ -25,7 +25,9 @@
         </tr>
       </tbody>
     </table>
-    <button class="btn classic-btn" ng-click="getListeCourse()">Liste de course</button>  
+    <div class="btn important-btn" ng-click="supMenu(menu.id)">Supprimer le menu</div>  
+    <button class="btn classic-btn" ng-click="getListeCourse()">Créer la liste de course</button>  
+    <a ng-if="menu.id_listshop" href="#/shoplist/{{menu.id_listshop}}" class="btn">Liste de course</a>
   </li>
   
 </ul>

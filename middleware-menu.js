@@ -147,7 +147,8 @@ var report = contracts.validate(req.body, {
           }
         }
       },
-    }
+    },
+    "id_listshop": {"type": "number"}
   }
 });
 // Respond with 400 and detailed errors if applicable
