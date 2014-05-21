@@ -18,6 +18,7 @@ app.configure('production', function () {
 app.use('/ingredients', app.bookmarks_app = require('./ingredient-rest')());
 app.use('/recipes', app.bookmarks_app = require('./recipe-rest')());
 app.use('/menus', app.bookmarks_app = require('./menu-rest')());
+app.use('/shops', app.bookmarks_app = require('./shop-rest')());
 
 // Homepage
 app.get('/', function (req, res) {

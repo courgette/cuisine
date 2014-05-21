@@ -8,15 +8,18 @@ controller('globalRecipes', function($scope, $http) {
         globalIngredientsArr = [];
 
     Array.prototype.forEach.call(ingredientinsert, function(el, i){
-      var select = el.querySelector('select'),
+      var select = el.querySelector('.selectIngredients'),
           valueOption = select.options[select.options.selectedIndex].value,
           nameqte = el.querySelector('input').value,
+          selectindice = el.querySelector('.indice'),
+          valueOptionIndice = selectindice.options[selectindice.options.selectedIndex].value,
           arrIngredient = [];
 
       //arrIngredient.push(valueOption, nameqte);
       globalIngredientsArr.push({
         'id':valueOption,
-        'qte':nameqte
+        'qte':nameqte,
+        'indice':valueOptionIndice
       });
     });
     newIngredient = {
@@ -24,7 +27,7 @@ controller('globalRecipes', function($scope, $http) {
       "persons":$scope.recipes.persons,
       "ingredients":globalIngredientsArr
     };
-    
+
     $http.post('/recipes', newIngredient);
   };
   var hideElement = document.getElementById('addNewIngredient');
@@ -140,7 +143,6 @@ controller('getOneRecipe', function($scope, $http){
     success(function(data) {
       $scope.recipe = data;
       $scope.recipe.ingredients.forEach(function(ingredient) {
-        console.log(ingredient.id);
         $http.get('ingredients/ingredient/'+ingredient.id).success(function(data){
           $scope.ing = data;
         });
@@ -173,13 +175,18 @@ controller('upRecipesCtrl', function($scope, $routeParams, $http){
     Array.prototype.forEach.call(ingredientcontainer, function(el, i){
       var ingredients = el.querySelector('.ingredient-recipe').getAttribute('data-id'),
           ingredientValue= el.querySelector('.ingredient-recipe').value,
-          qte = el.querySelector('.ingredient-qte').value;
+          qte = el.querySelector('.ingredient-qte').value,
+          selectindice = el.querySelector('.ingredient-indice');
+          valueOptionIndice = selectindice.options[selectindice.options.selectedIndex].value;
+
+      console.log(selectindice);
 
       var idIngredient = ingredientsList.querySelector('[data-text='+ingredientValue+']').getAttribute('data-id');
-
+      
       globalIngredientsArr.push({
         'id':idIngredient,
-        'qte':qte
+        'qte':qte,
+        'indice':valueOptionIndice
       });
     });
     upIngredient = {
@@ -188,7 +195,6 @@ controller('upRecipesCtrl', function($scope, $routeParams, $http){
       "ingredients":globalIngredientsArr
     };
     $http.put('/recipes/recipe/'+id, upIngredient);
-    console.log(upIngredient);
   };
   $scope.deleteRecipe = function(id) {
     if(confirm("Vous êtes sûr de vouloir supprimer cet ingrédient ?") === true) {
@@ -198,22 +204,45 @@ controller('upRecipesCtrl', function($scope, $routeParams, $http){
   };
 }).
 controller('menuCtrl', function($scope, $http) {
-  var menu = {};
+  var menu = {},
+      menuList = document.getElementById('recipes');
+
   $scope.addMenu = function() {
     menu = {
       "name":$scope.menu.name,
-      "lundi":$scope.menu.lundi,
-      "mardi":$scope.menu.mardi,
-      "mercredi":$scope.menu.mercredi,
-      "jeudi":$scope.menu.jeudi,
-      "vendredi":$scope.menu.vendredi,
-      "samedi":$scope.menu.samedi,
-      "dimanche":$scope.menu.dimanche
+      "lundi":[{
+        "id":menuList.querySelector('[data-text="'+$scope.menu.lundi+'"]').getAttribute('data-id'),
+        "name":$scope.menu.lundi
+      }],
+      "mardi":[{
+        "id":menuList.querySelector('[data-text="'+$scope.menu.mardi+'"]').getAttribute('data-id'),
+        "name":$scope.menu.mardi
+      }],
+      "mercredi":[{
+        "id":menuList.querySelector('[data-text="'+$scope.menu.mercredi+'"]').getAttribute('data-id'),
+        "name":$scope.menu.mercredi
+      }],
+      "jeudi":[{
+        "id":menuList.querySelector('[data-text="'+$scope.menu.jeudi+'"]').getAttribute('data-id'),
+        "name":$scope.menu.jeudi
+      }],
+      "vendredi":[{
+        "id":menuList.querySelector('[data-text="'+$scope.menu.vendredi+'"]').getAttribute('data-id'),
+        "name":$scope.menu.vendredi
+      }],
+      "samedi":[{
+        "id":menuList.querySelector('[data-text="'+$scope.menu.samedi+'"]').getAttribute('data-id'),
+        "name":$scope.menu.samedi
+      }],
+      "dimanche":[{
+        "id":menuList.querySelector('[data-text="'+$scope.menu.dimanche+'"]').getAttribute('data-id'),
+        "name":$scope.menu.dimanche
+      }]
     };
     $http.post('/menus', menu);
   };
 }).
-controller('oldMenus', function($scope, $http, Restangular){
+controller('oldMenus', function($scope, $http, Restangular, $q){
   var menus = Restangular.all('menus'),
       listMenus = menus.getList();
 
@@ -226,13 +255,134 @@ controller('oldMenus', function($scope, $http, Restangular){
     });
   });
 }).
-controller('oneMenu', function($scope, $http){
+controller('oneMenu', function($scope, $http, $q){
   $http.get($scope.url).
     success(function(data) {
       $scope.menu = data;
       //console.log($scope.recipe.ingredients);
     });
+  $scope.getListeCourse = function() {
+    var menus = document.querySelectorAll('.menus > td'),
+        globalIngredientsArr = [],
+        newArray = [],
+        paPromise = $q.defer(),
+        sums = {},
+        indice = {},
+        shopList = {};
+
+    console.log($scope.menu.name);
+    Array.prototype.forEach.call(menus, function(el, i){
+      var id = el.getAttribute('data-id');
+      $http.get('/recipes/recipe/'+id).
+        success(function(data) {
+          
+            //console.log(ingredient.id);
+            var ingredients = data.ingredients,
+                ingredientsArray = [];
+            ingredients.forEach(function(ingredient) {
+              $http.get('/ingredients/ingredient/'+ingredient.id).
+              success(function(data) {
+                globalIngredientsArr.push([data.name, ingredient.qte, ingredient.indice]);
+              });
+              
+            });
+            paPromise.resolve(globalIngredientsArr);
+        });
+    });
+
+    setTimeout(function(){
+      $scope.$apply(function(){
+        paPromise.promise.then(function(data){
+          
+          data.forEach(function(pair, i) {
+            if(pair[2]) {
+              indice[pair[0]] = pair[2];
+            }else {
+              sums[pair[0]] = parseFloat(pair[1]) + (sums[pair[0]] || 0);
+            }
+            sums[pair[0]] = parseFloat(pair[1]) + (sums[pair[0]] || 0);
+
+          });
+
+          shopList = {
+            "name" : 'Liste de course de ' + $scope.menu.name,
+            "idmenu" : $scope.menu.id,
+            "menuname" : $scope.menu.name,
+            "shop" : []
+          };
+
+          var results = [];
+          for(var key in sums) {
+            //shopList.shop.push([key, sums[key]+indice[key]]);
+            shopList.shop.push({
+              "name":key,
+              "qte":sums[key]+indice[key]
+            });
+          }
+          $http.post('/shops', shopList);
+        });
+      });
+    }, 500);
+    
+  };
   /*var urlIngredient = document.querySelectorAll('.url-ingredient');
 
   console.log(urlIngredient);*/
+}).
+controller('upMenuCtrl', function($scope, $routeParams, $http){
+  var id = $routeParams.id,
+      upMenu = {},
+      menuList = document.getElementById('recipes');
+  $http.get('/menus/menu/'+id).
+    success(function(data) {
+      $scope.menu = data;
+    });
+  $scope.updateMenu = function() {
+    //console.log($scope.menu.lundi[0].name);
+    upMenu = {
+      "name":$scope.menu.name,
+      "lundi":[{
+        "id":menuList.querySelector('[data-text="'+$scope.menu.lundi[0].name+'"]').getAttribute('data-id'),
+        "name":$scope.menu.lundi[0].name
+      }],
+      "mardi":[{
+        "id":menuList.querySelector('[data-text="'+$scope.menu.mardi[0].name+'"]').getAttribute('data-id'),
+        "name":$scope.menu.mardi[0].name
+      }],
+      "mercredi":[{
+        "id":menuList.querySelector('[data-text="'+$scope.menu.mercredi[0].name+'"]').getAttribute('data-id'),
+        "name":$scope.menu.mercredi[0].name
+      }],
+      "jeudi":[{
+        "id":menuList.querySelector('[data-text="'+$scope.menu.jeudi[0].name+'"]').getAttribute('data-id'),
+        "name":$scope.menu.jeudi[0].name
+      }],
+      "vendredi":[{
+        "id":menuList.querySelector('[data-text="'+$scope.menu.vendredi[0].name+'"]').getAttribute('data-id'),
+        "name":$scope.menu.vendredi[0].name
+      }],
+      "samedi":[{
+        "id":menuList.querySelector('[data-text="'+$scope.menu.samedi[0].name+'"]').getAttribute('data-id'),
+        "name":$scope.menu.samedi[0].name
+      }],
+      "dimanche":[{
+        "id":menuList.querySelector('[data-text="'+$scope.menu.dimanche[0].name+'"]').getAttribute('data-id'),
+        "name":$scope.menu.dimanche[0].name
+      }]
+    };
+    $http.put('/menus/menu/'+id, upMenu);
+  };
+  $scope.deleteMenu = function(id) {
+    if(confirm("Vous êtes sûr de vouloir supprimer ce menu ?") === true) {
+      $http.delete('/menus/menu/'+id);
+      window.location = '#/oldmenus';
+    }
+  };
+}).
+controller('shopList', function($scope, $routeParams, $http){
+  var id = $routeParams.id;
+  $http.get('/shops/shop/'+id).
+    success(function(data) {
+      $scope.shop = data;
+    });
 });

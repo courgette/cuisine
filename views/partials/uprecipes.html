@@ -16,6 +16,15 @@
       <input type="text" list="ingredients" data-id="{{ing.id}}" value="{{ing.name}}" class="form-text ingredient-recipe"/>
       <label for="">Quantité</label>
       <input type="text" ng-model="ingredient.qte" class="form-text ingredient-qte" value="{{ingredient.qte}}"/>
+      <label for="">Indice</label>
+      <select class="ingredient-indice" ng-model="ingredient.indice">
+        <option value=" ">sans valeur</option>
+        <option value="ml">ml</option>
+        <option value="l">l</option>
+        <option value="g">g</option>
+        <option value="kg">kg</option>
+      </select>
+
   </div>
   <input class="btn classic-btn" type="submit" value="Mettre à jour la recette"/>
   <div ng-click="deleteRecipe(recipe.id)" class="btn important-btn">Supprimer la recette</div>

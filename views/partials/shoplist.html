@@ -1,0 +1,8 @@
+<div ng-controller="shopList" class="inner">
+  <h2>{{shop.name}}</h2>
+  <ul>
+    <li ng-repeat="item in shop.shop">
+      <div>{{item.qte}} {{item.name}}</div>
+    </li>
+  </ul>
+</div>

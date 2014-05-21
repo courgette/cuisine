@@ -1,0 +1,40 @@
+<datalist id="recipes" ng-controller="allRecipesCtrl">
+  <option ng-controller="getOneRecipe" data-text="{{recipe.name}}" data-id="{{recipe.id}}" ng-repeat="url in recipes">{{recipe.name}}</option>  
+</datalist>
+
+<form action="" ng-controller="upMenuCtrl" class="inner" ng-submit="updateMenu()">
+  <div class="form-group">
+    <label for="">Modifier le titre du menu</label>
+    <input class="form-text" type="text" ng-model="menu.name"/>
+  </div>
+  <div class="form-group">
+    <label for="">Menu du lundi</label>
+    <input list="recipes" class="form-text" type="text" ng-model="menu.lundi[0].name"/>
+  </div>
+  <div class="form-group">
+    <label for="">Menu du mardi</label>
+    <input list="recipes" class="form-text" type="text" ng-model="menu.mardi[0].name"/>
+  </div>
+  <div class="form-group">
+    <label for="">Menu du mercredi</label>
+    <input list="recipes" class="form-text" type="text" ng-model="menu.mercredi[0].name"/>
+  </div>
+  <div class="form-group">
+    <label for="">Menu du jeudi</label>
+    <input list="recipes" class="form-text" type="text" ng-model="menu.jeudi[0].name"/>
+  </div>
+  <div class="form-group">
+    <label for="">Menu du vendredi</label>
+    <input list="recipes" class="form-text" type="text" ng-model="menu.vendredi[0].name"/>
+  </div>
+  <div class="form-group">
+    <label for="">Menu du samedi</label>
+    <input list="recipes" class="form-text" type="text" ng-model="menu.samedi[0].name"/>
+  </div>
+  <div class="form-group">
+    <label for="">Menu du dimanche</label>
+    <input list="recipes" class="form-text" type="text" ng-model="menu.dimanche[0].name"/>
+  </div>
+  <input class="btn classic-btn" type="submit" value="Mettre à jour mon menu"/>
+  <div class="btn important-btn" ng-click="deleteMenu(menu.id)">Supprimer le menu</div>
+</form>

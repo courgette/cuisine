@@ -60,6 +60,9 @@ var report = contracts.validate(req.body, {
           },
           "qte": {
             "type": "number"
+          },
+          "indice": {
+            "type": "string"
           }
         }
       }, "required": required

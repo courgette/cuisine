@@ -36,6 +36,14 @@ config(['$routeProvider', function($routeProvider) {
     templateUrl: 'partials/oldmenus.html',
     controller: 'oldMenus'
   }).
+  when('/upmenu/:id', {
+    templateUrl: 'partials/upmenu.html',
+    controller: 'upMenuCtrl'
+  }).
+  when('/shoplist/:id', {
+    templateUrl: 'partials/shoplist.html',
+    controller: 'shopList'
+  }).
   otherwise({
     redirectTo: '/'
   });

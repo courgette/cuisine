@@ -49,104 +49,22 @@ var report = contracts.validate(req.body, {
   "additionalProperties": false,
   "properties": {
     "name": { "type": "string", "required": required },
-    "lundi": {
+    "idmenu": { "type": "number", "required": required },
+    "menuname": { "type": "string", "required": required },
+    "shop": {
       "type": "array",
       "items": {
         "type":"object",
         "menu": {
-          "id": {
-            "type":"number"
-          },
           "name": {
+            "type":"string"
+          },
+          "qte": {
             "type": "string"
           }
         }
       },
       "required": required
-    },
-    "mardi": {
-      "type": "array",
-      "items": {
-        "type":"object",
-        "menu": {
-          "id": {
-            "type":"number"
-          },
-          "name": {
-            "type": "string"
-          }
-        }
-      },
-    },
-    "mercredi": {
-      "type": "array",
-      "items": {
-        "type":"object",
-        "menu": {
-          "id": {
-            "type":"number"
-          },
-          "name": {
-            "type": "string"
-          }
-        }
-      },
-    },
-    "jeudi": {
-      "type": "array",
-      "items": {
-        "type":"object",
-        "menu": {
-          "id": {
-            "type":"number"
-          },
-          "name": {
-            "type": "string"
-          }
-        }
-      },
-    },
-    "vendredi": {
-      "type": "array",
-      "items": {
-        "type":"object",
-        "menu": {
-          "id": {
-            "type":"number"
-          },
-          "name": {
-            "type": "string"
-          }
-        }
-      },
-    },
-    "samedi": {
-      "type": "array",
-      "items": {
-        "type":"object",
-        "menu": {
-          "id": {
-            "type":"number"
-          },
-          "name": {
-            "type": "string"
-          }
-        }
-      },
-    },
-    "dimanche": {
-      "type": "array",
-      "items": {
-        "type":"object",
-        "menu": {
-          "id": {
-            "type":"number"
-          },
-          "name": {
-            "type": "string"
-          }
-        }
-      },
     }
   }
 });
@@ -184,13 +102,13 @@ if (req.method == 'PUT') {
   if ('undefined' == typeof req.body.id) {
     req.body.id = req.param('id'); // Undefined, use URL
   } else if (req.body.id != req.param('id')) {
-    return next({"message": "Invalid menu ID", "code": 400}); // Defined, and inconsistent with URL
+    return next({"message": "Invalid shop ID", "code": 400}); // Defined, and inconsistent with URL
   }
 }
 // Create
 if (req.method == 'POST') {
   if ('undefined' != typeof req.body.id) {
-    return next({"message": "menu ID must not be defined", "code": 400});
+    return next({"message": "shop ID must not be defined", "code": 400});
   }
 }
 // Everything went OK

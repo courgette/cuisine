@@ -1,6 +1,6 @@
 <ul ng-controller="oldMenus" class="inner">
   <li ng-controller="oneMenu" ng-repeat="url in menus">
-    <h2>{{menu.name}}</h2>
+    <h2 class="infomenu" data-name="{{menu.name}}" data-id="{{menu.id}}"><a href="#/upmenu/{{menu.id}}">{{menu.name}}</a></h2>
     <table>
       <thead>
         <tr>
@@ -14,16 +14,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>{{menu.lundi}}</td>
-          <td>{{menu.mardi}}</td>
-          <td>{{menu.mercredi}}</td>
-          <td>{{menu.jeudi}}</td>
-          <td>{{menu.vendredi}}</td>
-          <td>{{menu.samedi}}</td>
-          <td>{{menu.dimanche}}</td>
+        <tr class="menus">
+          <td data-id="{{menu.lundi[0].id}}">{{menu.lundi[0].name}}</td>
+          <td data-id="{{menu.mardi[0].id}}">{{menu.mardi[0].name}}</td>
+          <td data-id="{{menu.mercredi[0].id}}">{{menu.mercredi[0].name}}</td>
+          <td data-id="{{menu.jeudi[0].id}}">{{menu.jeudi[0].name}}</td>
+          <td data-id="{{menu.vendredi[0].id}}">{{menu.vendredi[0].name}}</td>
+          <td data-id="{{menu.samedi[0].id}}">{{menu.samedi[0].name}}</td>
+          <td data-id="{{menu.dimanche[0].id}}">{{menu.dimanche[0].name}}</td>
         </tr>
       </tbody>
     </table>
+    <button class="btn classic-btn" ng-click="getListeCourse()">Liste de course</button>  
   </li>
+  
 </ul>
