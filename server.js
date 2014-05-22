@@ -7,6 +7,10 @@ app.configure(function () {
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
+
+// Authenticator
+app.use(express.basicAuth('test', 'test'));
+
 app.configure('development', function () {
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
