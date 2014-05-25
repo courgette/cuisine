@@ -8,8 +8,11 @@ app.configure(function () {
   app.use(express.static(__dirname + '/public'));
 });
 
-// Authenticator
-app.use(express.basicAuth('test', 'test'));
+// Asynchronous
+var auth = express.basicAuth(function(user, pass, callback) {
+ var result = (user === 'test' && pass === 'test');
+ callback(null /* error */, result);
+});
 
 app.configure('development', function () {
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -25,13 +28,13 @@ app.use('/menus', app.bookmarks_app = require('./menu-rest')());
 app.use('/shops', app.bookmarks_app = require('./shop-rest')());
 
 // Homepage
-app.get('/', function (req, res) {
+app.get('/', auth, function (req, res) {
   res.sendfile('index.html', { root: __dirname + "/views" });
 });
 
-/*app.get('/addrecipes', function (req, res) {
-  res.sendfile(__dirname + '/views/addrecipes.html');
-});*/
+app.get('/noAuth', function(req, res) {
+ res.send('No Authentication');
+});
  
 if (module.parent === null) {
   app.listen(3000);
