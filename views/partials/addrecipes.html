@@ -18,7 +18,7 @@
         <div class="ingredientinsert">
           <label for="name-ingredient">Nom de l'ingrédient</label>
           <select name="selectingredients" class="selectIngredients">
-            <option ng-controller="OneIngredient" ng-repeat="url in ingredients" value="{{ingredient.id}}">{{ingredient.name}}</option>
+            <option ng-controller="OneIngredient" data-season="{{ingredient.season}}" ng-repeat="url in ingredients" value="{{ingredient.id}}">{{ingredient.name}}</option>
           </select><br/>
 
           <label for="name-qte">Quantité</label>

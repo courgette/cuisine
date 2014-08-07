@@ -5,15 +5,28 @@ controller('globalRecipes', function($scope, $http) {
 
     var newRecipes = {},
         ingredientinsert = document.querySelectorAll('.ingredientinsert'),
-        globalIngredientsArr = [];
+        globalIngredientsArr = [],
+        date = new Date(),
+        months = ["janvier","fevrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"],
+        month = months[date.getMonth()];
 
     Array.prototype.forEach.call(ingredientinsert, function(el, i){
       var select = el.querySelector('.selectIngredients'),
           valueOption = select.options[select.options.selectedIndex].value,
           nameqte = el.querySelector('input').value,
+          seasonValue = select.options[select.options.selectedIndex].dataset.season,
+          optionText = select.options[select.options.selectedIndex].textContent,
           selectindice = el.querySelector('.indice'),
           valueOptionIndice = selectindice.options[selectindice.options.selectedIndex].value,
           arrIngredient = [];
+
+        function include(arr,obj) {
+          return (arr.indexOf(obj) != -1);
+        }
+
+        if(include(seasonValue, month) !== true) {
+          alert("Votre ingredient "+optionText+" n'est pas de saison !");
+        }
 
       //arrIngredient.push(valueOption, nameqte);
       globalIngredientsArr.push({
@@ -27,8 +40,13 @@ controller('globalRecipes', function($scope, $http) {
       "persons":$scope.recipes.persons,
       "ingredients":globalIngredientsArr
     };
+    
 
-    $http.post('/recipes', newIngredient);
+    function include(arr,obj) {
+      return (arr.indexOf(obj) != -1);
+    }
+
+    //$http.post('/recipes', newIngredient);
   };
   var hideElement = document.getElementById('addNewIngredient');
   $scope.showAddIngredient = function() {
