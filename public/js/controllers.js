@@ -46,7 +46,7 @@ controller('globalRecipes', function($scope, $http) {
       return (arr.indexOf(obj) != -1);
     }
 
-    //$http.post('/recipes', newIngredient);
+    $http.post('/recipes', newIngredient);
   };
   var hideElement = document.getElementById('addNewIngredient');
   $scope.showAddIngredient = function() {
