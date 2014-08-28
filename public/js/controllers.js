@@ -100,6 +100,7 @@ controller('addIngredientCtrl', function($scope, $http, Restangular) {
   };
 }).
 controller('allIngredientCtrl', function($scope, $http, Restangular) {
+  console.log('allIngredient');
   var ingredients = Restangular.all('ingredients'),
       listIngredients = ingredients.getList();
 
@@ -114,6 +115,7 @@ controller('allIngredientCtrl', function($scope, $http, Restangular) {
 
 }).
 controller('getOneIngredient', function($scope, $http){
+  console.log($scope.url);
   $http.get($scope.url).
     success(function(data) {
       $scope.ingredient = data;
