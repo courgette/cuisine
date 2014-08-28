@@ -53,7 +53,15 @@ var report = contracts.validate(req.body, {
       "type": "array",
       "items": {
         "type":"object",
-        "menu": {
+        "menumidi": {
+          "id": {
+            "type":"number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "menusoir": {
           "id": {
             "type":"number"
           },
@@ -68,84 +76,132 @@ var report = contracts.validate(req.body, {
       "type": "array",
       "items": {
         "type":"object",
-        "menu": {
+        "menumidi": {
           "id": {
             "type":"number"
           },
           "name": {
             "type": "string"
           }
-        }
+        },
+        "menusoir": {
+          "id": {
+            "type":"number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
       },
     },
     "mercredi": {
       "type": "array",
       "items": {
         "type":"object",
-        "menu": {
+        "menumidi": {
           "id": {
             "type":"number"
           },
           "name": {
             "type": "string"
           }
-        }
+        },
+        "menusoir": {
+          "id": {
+            "type":"number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
       },
     },
     "jeudi": {
       "type": "array",
       "items": {
         "type":"object",
-        "menu": {
+        "menumidi": {
           "id": {
             "type":"number"
           },
           "name": {
             "type": "string"
           }
-        }
+        },
+        "menusoir": {
+          "id": {
+            "type":"number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
       },
     },
     "vendredi": {
       "type": "array",
       "items": {
         "type":"object",
-        "menu": {
+        "menumidi": {
           "id": {
             "type":"number"
           },
           "name": {
             "type": "string"
           }
-        }
+        },
+        "menusoir": {
+          "id": {
+            "type":"number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
       },
     },
     "samedi": {
       "type": "array",
       "items": {
         "type":"object",
-        "menu": {
+        "menumidi": {
           "id": {
             "type":"number"
           },
           "name": {
             "type": "string"
           }
-        }
+        },
+        "menusoir": {
+          "id": {
+            "type":"number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
       },
     },
     "dimanche": {
       "type": "array",
       "items": {
         "type":"object",
-        "menu": {
+        "menumidi": {
           "id": {
             "type":"number"
           },
           "name": {
             "type": "string"
           }
-        }
+        },
+        "menusoir": {
+          "id": {
+            "type":"number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
       },
     },
     "id_listshop": {"type": "number"}

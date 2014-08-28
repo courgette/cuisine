@@ -100,7 +100,7 @@ controller('addIngredientCtrl', function($scope, $http, Restangular) {
   };
 }).
 controller('allIngredientCtrl', function($scope, $http, Restangular) {
-  console.log('allIngredient');
+  //console.log('allIngredient');
   var ingredients = Restangular.all('ingredients'),
       listIngredients = ingredients.getList();
 
@@ -115,7 +115,7 @@ controller('allIngredientCtrl', function($scope, $http, Restangular) {
 
 }).
 controller('getOneIngredient', function($scope, $http){
-  console.log($scope.url);
+  //console.log($scope.url);
   $http.get($scope.url).
     success(function(data) {
       $scope.ingredient = data;
@@ -199,7 +199,7 @@ controller('upRecipesCtrl', function($scope, $routeParams, $http){
           selectindice = el.querySelector('.ingredient-indice');
           valueOptionIndice = selectindice.options[selectindice.options.selectedIndex].value;
 
-      console.log(selectindice);
+      //console.log(selectindice);
 
       var idIngredient = ingredientsList.querySelector('[data-text='+ingredientValue+']').getAttribute('data-id');
       
@@ -230,34 +230,76 @@ controller('menuCtrl', function($scope, $http) {
   $scope.addMenu = function() {
     menu = {
       "name":$scope.menu.name,
-      "lundi":[{
-        "id":menuList.querySelector('[data-text="'+$scope.menu.lundi+'"]').getAttribute('data-id'),
-        "name":$scope.menu.lundi
-      }],
-      "mardi":[{
-        "id":menuList.querySelector('[data-text="'+$scope.menu.mardi+'"]').getAttribute('data-id'),
-        "name":$scope.menu.mardi
-      }],
-      "mercredi":[{
-        "id":menuList.querySelector('[data-text="'+$scope.menu.mercredi+'"]').getAttribute('data-id'),
-        "name":$scope.menu.mercredi
-      }],
-      "jeudi":[{
-        "id":menuList.querySelector('[data-text="'+$scope.menu.jeudi+'"]').getAttribute('data-id'),
-        "name":$scope.menu.jeudi
-      }],
-      "vendredi":[{
-        "id":menuList.querySelector('[data-text="'+$scope.menu.vendredi+'"]').getAttribute('data-id'),
-        "name":$scope.menu.vendredi
-      }],
-      "samedi":[{
-        "id":menuList.querySelector('[data-text="'+$scope.menu.samedi+'"]').getAttribute('data-id'),
-        "name":$scope.menu.samedi
-      }],
-      "dimanche":[{
-        "id":menuList.querySelector('[data-text="'+$scope.menu.dimanche+'"]').getAttribute('data-id'),
-        "name":$scope.menu.dimanche
-      }]
+      "lundi":[
+        {
+          "id":menuList.querySelector('[data-text="'+$scope.menu.lundi.midi+'"]').getAttribute('data-id'),
+          "name":$scope.menu.lundi.midi
+        },
+        {
+          "id":menuList.querySelector('[data-text="'+$scope.menu.lundi.soir+'"]').getAttribute('data-id'),
+          "name":$scope.menu.lundi.soir
+        }
+      ],
+      "mardi":[
+        {
+          "id":menuList.querySelector('[data-text="'+$scope.menu.mardi.midi+'"]').getAttribute('data-id'),
+          "name":$scope.menu.mardi.midi
+        },
+        {
+          "id":menuList.querySelector('[data-text="'+$scope.menu.mardi.soir+'"]').getAttribute('data-id'),
+          "name":$scope.menu.mardi.soir
+        }
+      ],
+      "mercredi":[
+        {
+          "id":menuList.querySelector('[data-text="'+$scope.menu.mercredi.midi+'"]').getAttribute('data-id'),
+          "name":$scope.menu.mercredi.midi
+        },
+        {
+          "id":menuList.querySelector('[data-text="'+$scope.menu.mercredi.soir+'"]').getAttribute('data-id'),
+          "name":$scope.menu.mercredi.soir
+        }
+      ],
+      "jeudi":[
+        {
+          "id":menuList.querySelector('[data-text="'+$scope.menu.jeudi.midi+'"]').getAttribute('data-id'),
+          "name":$scope.menu.jeudi.midi
+        },
+        {
+          "id":menuList.querySelector('[data-text="'+$scope.menu.jeudi.soir+'"]').getAttribute('data-id'),
+          "name":$scope.menu.jeudi.soir
+        }
+      ],
+      "vendredi":[
+        {
+          "id":menuList.querySelector('[data-text="'+$scope.menu.vendredi.midi+'"]').getAttribute('data-id'),
+          "name":$scope.menu.vendredi.midi
+        },
+        {
+          "id":menuList.querySelector('[data-text="'+$scope.menu.vendredi.soir+'"]').getAttribute('data-id'),
+          "name":$scope.menu.vendredi.soir
+        }
+      ],
+      "samedi":[
+        {
+          "id":menuList.querySelector('[data-text="'+$scope.menu.samedi.midi+'"]').getAttribute('data-id'),
+          "name":$scope.menu.samedi.midi
+        },
+        {
+          "id":menuList.querySelector('[data-text="'+$scope.menu.samedi.soir+'"]').getAttribute('data-id'),
+          "name":$scope.menu.samedi.soir
+        }
+      ],
+      "dimanche":[
+        {
+          "id":menuList.querySelector('[data-text="'+$scope.menu.dimanche.midi+'"]').getAttribute('data-id'),
+          "name":$scope.menu.dimanche.midi
+        },
+        {
+          "id":menuList.querySelector('[data-text="'+$scope.menu.dimanche.soir+'"]').getAttribute('data-id'),
+          "name":$scope.menu.dimanche.soir
+        }
+      ]
     };
     $http.post('/menus', menu);
   };
@@ -279,6 +321,7 @@ controller('oneMenu', function($scope, $http, $q){
   $http.get($scope.url).
     success(function(data) {
       $scope.menu = data;
+      
       //console.log($scope.recipe.ingredients);
     });
   $scope.supMenu = function(id) {
@@ -296,7 +339,7 @@ controller('oneMenu', function($scope, $http, $q){
         indice = {},
         shopList = {};
 
-    console.log($scope.menu.name);
+    
     Array.prototype.forEach.call(menus, function(el, i){
       var id = el.getAttribute('data-id');
       $http.get('/recipes/recipe/'+id).
@@ -348,34 +391,76 @@ controller('oneMenu', function($scope, $http, $q){
           $http.post('/shops', shopList).success(function(data) {
             var upMenu = {
               "name":$scope.menu.name,
-              "lundi":[{
-                "name":$scope.menu.lundi[0].name,
-                "id":$scope.menu.lundi[0].id
-              }],
-              "mardi":[{
-                "name":$scope.menu.mardi[0].name,
-                "id":$scope.menu.mardi[0].id
-              }],
-              "mercredi":[{
-                "name":$scope.menu.mercredi[0].name,
-                "id":$scope.menu.mercredi[0].id
-              }],
-              "jeudi":[{
-                "name":$scope.menu.jeudi[0].name,
-                "id":$scope.menu.jeudi[0].id
-              }],
-              "vendredi":[{
-                "name":$scope.menu.vendredi[0].name,
-                "id":$scope.menu.vendredi[0].id
-              }],
-              "samedi":[{
-                "name":$scope.menu.samedi[0].name,
-                "id":$scope.menu.samedi[0].id
-              }],
-              "dimanche":[{
-                "name":$scope.menu.dimanche[0].name,
-                "id":$scope.menu.dimanche[0].id
-              }],
+              "lundi":[
+                {
+                  "name":$scope.menu.lundi[0].name,
+                  "id":$scope.menu.lundi[0].id
+                },
+                {
+                  "name":$scope.menu.lundi[1].name,
+                  "id":$scope.menu.lundi[1].id
+                }
+              ],
+              "mardi":[
+                {
+                  "name":$scope.menu.mardi[0].name,
+                  "id":$scope.menu.mardi[0].id
+                },
+                {
+                  "name":$scope.menu.mardi[1].name,
+                  "id":$scope.menu.mardi[1].id
+                }
+              ],
+              "mercredi":[
+                {
+                  "name":$scope.menu.mercredi[0].name,
+                  "id":$scope.menu.mercredi[0].id
+                },
+                {
+                  "name":$scope.menu.mercredi[1].name,
+                  "id":$scope.menu.mercredi[1].id
+                }
+              ],
+              "jeudi":[
+                {
+                  "name":$scope.menu.jeudi[0].name,
+                  "id":$scope.menu.jeudi[0].id
+                },
+                {
+                  "name":$scope.menu.jeudi[1].name,
+                  "id":$scope.menu.jeudi[1].id
+                }
+              ],
+              "vendredi":[
+                {
+                  "name":$scope.menu.vendredi[0].name,
+                  "id":$scope.menu.vendredi[0].id
+                },
+                {
+                  "name":$scope.menu.vendredi[1].name,
+                  "id":$scope.menu.vendredi[1].id
+                }
+              ],
+              "samedi":[
+                {
+                  "name":$scope.menu.samedi[0].name,
+                  "id":$scope.menu.samedi[0].id
+                },
+                {
+                  "name":$scope.menu.samedi[1].name,
+                  "id":$scope.menu.samedi[1].id
+                }
+              ],
+              "dimanche":[
+                {
+                  "name":$scope.menu.dimanche[0].name,
+                  "id":$scope.menu.dimanche[0].id
+                },
+                {
+                  "name":$scope.menu.dimanche[1].name,
+                  "id":$scope.menu.dimanche[1].id
+                }
+              ],
               "id_listshop":data.id
             };
             $http.put('/menus/menu/'+$scope.menu.id, upMenu);
