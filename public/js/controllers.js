@@ -1,6 +1,15 @@
+/* ==========================================================================
+   Sommaire
+
+   1 = Global Recipes
+   ========================================================================== */
+
 angular.module('myApp.controllers', []).
 
 controller('globalRecipes', function($scope, $http) {
+  /* ==========================================================================
+     1 = Global Recipes
+     ========================================================================== */
   $scope.validateRecipes = function() {
 
     var newRecipes = {},
@@ -24,7 +33,6 @@ controller('globalRecipes', function($scope, $http) {
           return (arr.indexOf(obj) != -1);
         }
 
-        console.log(seasonValue);
         if(include(seasonValue, month) !== true && seasonValue !== '') {
           alert("Votre ingredient "+optionText+" n'est pas de saison !");
         }
@@ -69,7 +77,6 @@ controller('addRecipesCtrl', function($scope, $http) {
         });
       });
     });
-  
 }).
 
 controller('OneIngredient', function($scope, $http) {
@@ -303,6 +310,7 @@ controller('menuCtrl', function($scope, $http) {
       ]
     };
     $http.post('/menus', menu);
+    window.location.reload();
   };
 }).
 controller('oldMenus', function($scope, $http, Restangular, $q){
