@@ -24,7 +24,8 @@ controller('globalRecipes', function($scope, $http) {
           return (arr.indexOf(obj) != -1);
         }
 
-        if(include(seasonValue, month) !== true) {
+        console.log(seasonValue);
+        if(include(seasonValue, month) !== true && seasonValue !== '') {
           alert("Votre ingredient "+optionText+" n'est pas de saison !");
         }
 
