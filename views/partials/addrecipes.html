@@ -1,15 +1,17 @@
 <div>
 
-  <form name="addingredient" class="inner box" ng-controller="globalRecipes" ng-submit="validateRecipes()">
-    <fieldset>
+  <form name="addRecipe" class="inner box" ng-controller="globalRecipes" ng-submit="validateRecipes()">
+    <fieldset ng-class="{'has-error': addRecipe.name.$invalid}">
       <legend>C'est quoi le nom de votre recette</legend>
       <label for="name-recipes">Nom de votre recette :</label>
-      <input class="form-text" id="name-recipes" ng-model="recipes.name" type="text" placeholder="Entrez le nom de la recette..."/>
+      <input name="name" required class="form-text" id="name-recipes" ng-model="recipes.name" type="text" placeholder="Entrez le nom de la recette..."/>
+      <p ng-show="addRecipe.name.$invalid && !addRecipe.name.$pristine" class="help-block">Entrez un nom de recette</p>
     </fieldset>
-    <fieldset>
+    <fieldset ng-class="{'has-error': addRecipe.persons.$invalid}">
       <legend>Pour combien de personnes ?</legend>
       <label for="name-persons">Nombre de personnes :</label>
-      <input class="form-text" id="name-persons" ng-model="recipes.persons" type="number" placeholder="Entrez le nombre de personnes..."/>
+      <input name="persons" required class="form-text" id="name-persons" ng-model="recipes.persons" type="number" placeholder="Entrez le nombre de personnes..."/>
+      <p ng-show="addRecipe.persons.$invalid && !addRecipe.persons.$pristine" class="help-block">Entrez le nombre de personnes</p>
     </fieldset>
     <fieldset >
       <legend>Vos ingrédients ?</legend>
@@ -43,7 +45,7 @@
       <div class="btn classic-btn" ng-click="showAddIngredient()">Nouvel ingrédient</div>
     </fieldset>
 
-    <input class="btn classic-btn" type="submit" value="Valider ma recette"/>
+    <button ng-disabled="!addRecipe.$valid" class="btn classic-btn" type="submit" >Valider ma recette</button>
   </form>
 
   <div id="addNewIngredient" class="dnone">

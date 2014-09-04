@@ -66,3 +66,8 @@ select, .form-text, textarea {
 
 .form-radio + label:before { border-radius: 100%; }
 .form-radio:checked + label:before { background: #FFF; }
+
+input:required,
+select:required {
+  box-shadow: none;
+}

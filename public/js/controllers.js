@@ -1,25 +1,34 @@
 /* ==========================================================================
    Sommaire
 
-   1 = Global Recipes
+   1 = Add a new Recipes
+   2 = Get listing ingredients
+   3 = Get one ingredient
+   4 = Add a new Ingredient
+
    ========================================================================== */
 
-angular.module('myApp.controllers', []).
+angular.module('myApp.controllers', ['myApp.factory']).
 
-controller('globalRecipes', function($scope, $http) {
-  /* ==========================================================================
-     1 = Global Recipes
-     ========================================================================== */
+/* ==========================================================================
+   1 = Add a new Recipes
+   ========================================================================== */
+
+controller('globalRecipes', function($scope, $http, globalFunction) {
   $scope.validateRecipes = function() {
 
-    var newRecipes = {},
+    //init variables
+    var newRecipe = {},
         ingredientinsert = document.querySelectorAll('.ingredientinsert'),
         globalIngredientsArr = [],
         date = new Date(),
         months = ["janvier","fevrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"],
         month = months[date.getMonth()];
 
+    // For each ingredients
     Array.prototype.forEach.call(ingredientinsert, function(el, i){
+
+      //init variables
       var select = el.querySelector('.selectIngredients'),
           valueOption = select.options[select.options.selectedIndex].value,
           nameqte = el.querySelector('input').value,
@@ -29,34 +38,43 @@ controller('globalRecipes', function($scope, $http) {
           valueOptionIndice = selectindice.options[selectindice.options.selectedIndex].value,
           arrIngredient = [];
 
-        function include(arr,obj) {
-          return (arr.indexOf(obj) != -1);
-        }
+          function include(arr,obj) {
+            return (arr.indexOf(obj) != -1);
+          }
 
-        if(include(seasonValue, month) !== true && seasonValue !== '') {
-          alert("Votre ingredient "+optionText+" n'est pas de saison !");
-        }
+          //Check season for each ingredient and alert the user
+          if(include(seasonValue, month) !== true && seasonValue !== '') {
+            alert("Votre ingredient "+optionText+" n'est pas de saison !");
+          }
 
-      //arrIngredient.push(valueOption, nameqte);
+      //Create a object globalIngredient
       globalIngredientsArr.push({
         'id':valueOption,
         'qte':nameqte,
         'indice':valueOptionIndice
       });
     });
-    newIngredient = {
+
+    //Create a new Recipe object
+    newRecipe = {
       "name":$scope.recipes.name,
       "persons":$scope.recipes.persons,
       "ingredients":globalIngredientsArr
     };
+
+    //Post the new Recipe
     
-
-    function include(arr,obj) {
-      return (arr.indexOf(obj) != -1);
-    }
-
-    $http.post('/recipes', newIngredient);
+    $http
+      .post('/recipes', newRecipe)
+      .success(function() {
+        globalFunction.setMessage('Votre recette a bien été enregistrée', 'success');
+      })
+      .error(function() {
+        globalFunction.setMessage('Merci de remplir tous les champs', 'warning');
+      });
   };
+
+  //Add a new Ingredient
   var hideElement = document.getElementById('addNewIngredient');
   $scope.showAddIngredient = function() {
     if(hideElement.classList.contains('dnone')) {
@@ -66,6 +84,10 @@ controller('globalRecipes', function($scope, $http) {
     }
   };
 }).
+
+/* ==========================================================================
+    2 = Get listing ingredients
+   ========================================================================== */
 
 controller('addRecipesCtrl', function($scope, $http) {
   $http.get('/ingredients')
@@ -79,6 +101,10 @@ controller('addRecipesCtrl', function($scope, $http) {
     });
 }).
 
+/* ==========================================================================
+    3 = Get one ingredient
+   ========================================================================== */
+
 controller('OneIngredient', function($scope, $http) {
   $http.get($scope.url).
     success(function(data) {
@@ -86,11 +112,15 @@ controller('OneIngredient', function($scope, $http) {
     });
 }).
 
-controller('addIngredientCtrl', function($scope, $http, Restangular) {
-  var ingredients = Restangular.all('ingredients');
+/* ==========================================================================
+   4 = Add a new Ingredient
+   ========================================================================== */
 
+controller('addIngredientCtrl', function($scope, $http, globalFunction) {
+
+  var newIngredient = {};
   $scope.validateIngredient = function() {
-    var newIngredient = {};
+    
     if($scope.ingredient.season === undefined) {
       newIngredient = {
         name:$scope.ingredient.name,
@@ -103,8 +133,14 @@ controller('addIngredientCtrl', function($scope, $http, Restangular) {
         season:$scope.ingredient.season
       };
     }
-    ingredients.post(newIngredient);
-    window.location.reload();
+    //Post new Ingredient
+    $http.post('/ingredients', newIngredient)
+    .success(function() {
+      globalFunction.setMessage('Votre ingrédient a bien été enregistré', 'success');
+    })
+    .error(function() {
+      globalFunction.setMessage('Merci de remplir tous les champs', 'warning');
+    });
   };
 }).
 controller('allIngredientCtrl', function($scope, $http, Restangular) {
@@ -231,7 +267,7 @@ controller('upRecipesCtrl', function($scope, $routeParams, $http){
     }
   };
 }).
-controller('menuCtrl', function($scope, $http) {
+controller('menuCtrl', function($scope, $http, globalFunction) {
   var menu = {},
       menuList = document.getElementById('recipes');
 
@@ -309,8 +345,14 @@ controller('menuCtrl', function($scope, $http) {
         }
       ]
     };
-    $http.post('/menus', menu);
-    window.location.reload();
+    $http
+      .post('/menus', menu)
+      .success(function() {
+        globalFunction.setMessage('Votre menu de la semaine a bien été enregistré', 'success');
+      })
+      .error(function() {
+        globalFunction.setMessage('Merci de remplir tous les champs', 'warning');
+      });
   };
 }).
 controller('oldMenus', function($scope, $http, Restangular, $q){

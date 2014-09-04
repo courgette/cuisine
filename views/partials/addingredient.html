@@ -1,13 +1,14 @@
-<form class="inner box" ng-submit="validateIngredient()">
+<form name="addIngredient" class="inner box" ng-submit="validateIngredient()">
   <fieldset>
     <legend>Nom de l'ingrédient</legend>
     <label for="name-ingredient">Entrez le nom de l'ingrédient : </label>
-    <input class="form-text" id="name-ingredient" type="text" ng-model="ingredient.name" placeholder="Entez le nom de l'ingrédient" />
+    <input required name="name" class="form-text" id="name-ingredient" type="text" ng-model="ingredient.name" placeholder="Entez le nom de l'ingrédient" />
+    <p ng-show="addIngredient.name.$invalid && !addIngredient.name.$pristine" class="help-block">Entrez un nom d'ingrédient</p>
   </fieldset>
   <fieldset>
     <legend>Famille de l'ingrédient</legend>
     <label for="family-ingredient">Choisissez la famille de l'ingrédient : </label>
-    <select id="family-ingredient" ng-model="ingredient.family">
+    <select name="family" required id="family-ingredient" ng-model="ingredient.family">
       <option value="" disabled selected>Choisissez votre famille d'ingrédient</option>
       <option value="fruits-legumes">Fruits et légumes</option>
       <option value="cereales-feculents">Céréales et féculents</option>
@@ -35,5 +36,5 @@
       <option value="decembre">Décembre</option>
     </select>
   </fieldset>
-  <input type="submit" class="btn classic-btn" value="Validez votre ingrédient">
+  <button ng-disabled="!addIngredient.$valid" type="submit" class="btn classic-btn">Validez votre ingrédient</button>
 </form>

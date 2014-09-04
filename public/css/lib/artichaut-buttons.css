@@ -21,6 +21,15 @@
   color: #FFF; 
 }
 
+.btn[disabled="disabled"] {
+  background: #999; 
+  cursor: not-allowed; 
+}
+  .btn[disabled="disabled"]:hover,
+  .btn[disabled="disabled"]:focus {
+    background: #999;
+  }
+
 button.btn,
 input.btn {
   border:0;

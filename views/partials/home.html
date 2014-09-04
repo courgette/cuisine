@@ -2,10 +2,10 @@
   <option ng-controller="getOneRecipe" data-text="{{recipe.name}}" data-id="{{recipe.id}}" ng-repeat="url in recipes">{{recipe.name}}</option>  
 </datalist>
 
-<form action="" ng-controller="menuCtrl" ng-submit="addMenu()">
+<form name="menusWeek" action="" ng-controller="menuCtrl" ng-submit="addMenu()">
   <div class="form-group">
     <label for="">Nom du menu</label>
-    <input class="form-text" type="text" ng-model="menu.name"/>
+    <input required class="form-text" type="text" ng-model="menu.name"/>
   </div>
   <table class="menu" style="table-layout: fixed; overflow: hidden; width: 100%;">
     <thead>
@@ -110,5 +110,5 @@
       </tr>
     </tbody>
   </table>
-  <input class="btn classic-btn" type="submit" value="Je valide mon menu">
+  <button ng-disabled="!menusWeek.$valid" class="btn classic-btn" type="submit" >Je valide mon menu</button>
 </form>
