@@ -1,5 +1,5 @@
 <ul class="dtable w100">
-  <li ng-controller="getOneIngredient" ng-repeat="url in ingredients">
+  <li ng-repeat="ingredient in ingredients">
     <div>
       {{ingredient.name}}
       <form ng-show="isReplyFormOpen" ng-submit="updateIngredient(ingredient.id)">

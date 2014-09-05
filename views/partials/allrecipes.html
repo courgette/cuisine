@@ -1,5 +1,5 @@
-<ul ng-controller="allRecipesCtrl" class="inner">
-  <li ng-controller="getOneRecipe" ng-repeat="url in recipes">
+<ul class="inner">
+  <li ng-repeat="recipe in recipes">
     <h3><a href="#/updaterecipes/{{recipe.id}}">{{recipe.name}}</a></h3>
   </li>
 </ul>

@@ -5,6 +5,15 @@
    2 = Get listing ingredients
    3 = Get one ingredient
    4 = Add a new Ingredient
+   5 = Get list ingredients
+   6 = Update ingredient
+   7 = Get list recipes
+   8 = Get one recipe
+   9 = Get one ingredient
+   10 = Update one Recipe
+   11 = Post a Menu Week
+   12 = Get List Menus week
+   13 = Get one Menu Week
 
    ========================================================================== */
 
@@ -143,27 +152,24 @@ controller('addIngredientCtrl', function($scope, $http, globalFunction) {
     });
   };
 }).
-controller('allIngredientCtrl', function($scope, $http, Restangular) {
+
+/* ==========================================================================
+   5 = Get list ingredients
+   ========================================================================== */
+
+controller('allIngredientCtrl', function($scope, $http) {
   //console.log('allIngredient');
-  var ingredients = Restangular.all('ingredients'),
-      listIngredients = ingredients.getList();
 
-  listIngredients.then(function(ArrayIngredient) {
-    $scope.ingredients = ArrayIngredient;
-    ArrayIngredient.forEach(function(ingredient) {
-      $http.get(ingredient).success(function(data){
-        $scope.ingredient = data;
-      });
+  $http.get('ingredients/').
+    success(function(ingredientsUrl) {
+      for(var url in ingredientsUrl) {
+        $scope.ingredients = [];
+        $http.get(ingredientsUrl[url]).success(function(data){
+          $scope.ingredients.push(data);
+        })
+      }
     });
-  });
 
-}).
-controller('getOneIngredient', function($scope, $http){
-  //console.log($scope.url);
-  $http.get($scope.url).
-    success(function(data) {
-      $scope.ingredient = data;
-    });
   $scope.deleteIngredient = function(id){
     if(confirm("Vous êtes sûr de vouloir supprimer cet ingrédient ?") === true) {
       $http.delete('/ingredients/ingredient/'+id);
@@ -188,42 +194,64 @@ controller('getOneIngredient', function($scope, $http){
     $http.put('ingredients/ingredient/'+id, upIngredient);
     window.location.reload();
   };
-}).
-controller('allRecipesCtrl', function($scope, $http, Restangular){
-  var recipes = Restangular.all('recipes'),
-      listRecipes = recipes.getList();
 
-  listRecipes.then(function(ArrayRecipes) {
-    $scope.recipes = ArrayRecipes;
-    ArrayRecipes.forEach(function(recipes) {
-      $http.get(recipes).success(function(data){
-        $scope.recipe = data;
-      });
-    });
-  });
 }).
+
+/* ==========================================================================
+   6 = Update Ingredient
+   ========================================================================== */
+
+controller('getOneIngredient', function($scope, $http){
+  //console.log($scope.url);
+  $http.get($scope.url).
+    success(function(data) {
+      $scope.ingredient = data;
+    });
+  
+}).
+
+/* ==========================================================================
+   7 = Get list recipes
+   ========================================================================== */
+
+controller('allRecipesCtrl', function($scope, $http){
+  $http.get('recipes/').
+    success(function(recipesUrl) {
+      for(var url in recipesUrl) {
+        $scope.recipes = [];
+        $http.get(recipesUrl[url]).success(function(data){
+          $scope.recipes.push(data);
+        })
+      }
+    });
+}).
+
+/* ==========================================================================
+   8 = Get one recipe
+   ========================================================================== */
+
 controller('getOneRecipe', function($scope, $http){
   $http.get($scope.url).
     success(function(data) {
       $scope.recipe = data;
-      $scope.recipe.ingredients.forEach(function(ingredient) {
-        $http.get('ingredients/ingredient/'+ingredient.id).success(function(data){
-          $scope.ing = data;
-        });
-      });
-      //console.log($scope.recipe.ingredients);
     });
-  /*var urlIngredient = document.querySelectorAll('.url-ingredient');
-
-  console.log(urlIngredient);*/
 }).
-controller('getIngredient', function($scope, $http){
 
+/* ==========================================================================
+   9 = Get one ingredient
+   ========================================================================== */
+
+controller('getIngredient', function($scope, $http){
   $http.get('ingredients/ingredient/'+$scope.ingredient.id).
     success(function(data) {
       $scope.ing = data;
     });
 }).
+
+/* ==========================================================================
+   10 = Update one Recipe
+   ========================================================================== */
+
 controller('upRecipesCtrl', function($scope, $routeParams, $http){
   var id = $routeParams.id,
       upIngredient = {};
@@ -267,6 +295,11 @@ controller('upRecipesCtrl', function($scope, $routeParams, $http){
     }
   };
 }).
+
+/* ==========================================================================
+   11 = Post a Menu Week
+   ========================================================================== */
+
 controller('menuCtrl', function($scope, $http, globalFunction) {
   var menu = {},
       menuList = document.getElementById('recipes');
@@ -355,6 +388,11 @@ controller('menuCtrl', function($scope, $http, globalFunction) {
       });
   };
 }).
+
+/* ==========================================================================
+   12 = Get List Menus week
+   ========================================================================== */
+
 controller('oldMenus', function($scope, $http, Restangular, $q){
   var menus = Restangular.all('menus'),
       listMenus = menus.getList();
@@ -368,6 +406,11 @@ controller('oldMenus', function($scope, $http, Restangular, $q){
     });
   });
 }).
+
+/* ==========================================================================
+   13 = Get one Menu Week
+   ========================================================================== */
+
 controller('oneMenu', function($scope, $http, $q){
   $http.get($scope.url).
     success(function(data) {
