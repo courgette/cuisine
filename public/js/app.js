@@ -1,12 +1,8 @@
 angular.module( 'myApp', [
   'ngRoute',
-  'restangular',
   'myApp.controllers',
   'myApp.directives'
 ]).
-config(function(RestangularProvider){
-  RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
-}).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider
   .when('/', {

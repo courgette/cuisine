@@ -1,5 +1,5 @@
 <datalist id="recipes" ng-controller="allRecipesCtrl">
-  <option ng-controller="getOneRecipe" data-text="{{recipe.name}}" data-id="{{recipe.id}}" ng-repeat="url in recipes">{{recipe.name}}</option>  
+  <option data-text="{{recipe.name}}" data-id="{{recipe.id}}" ng-repeat="recipe in recipes">{{recipe.name}}</option>  
 </datalist>
 
 <form name="menusWeek" action="" ng-controller="menuCtrl" ng-submit="addMenu()">

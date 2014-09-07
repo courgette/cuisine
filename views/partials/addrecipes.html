@@ -17,10 +17,10 @@
       <legend>Vos ingrédients ?</legend>
 
       <script type="text/ng-template" id="ingredientinsert">
-        <div class="ingredientinsert">
+        <div class="ingredientinsert" ng-controller="allIngredientCtrl">
           <label for="name-ingredient">Nom de l'ingrédient</label>
           <select name="selectingredients" class="selectIngredients">
-            <option ng-controller="OneIngredient" data-season="{{ingredient.season}}" ng-repeat="url in ingredients" value="{{ingredient.id}}">{{ingredient.name}}</option>
+            <option data-season="{{ingredient.season}}" ng-repeat="ingredient in ingredients" value="{{ingredient.id}}">{{ingredient.name}}</option>
           </select><br/>
 
           <label for="name-qte">Quantité</label>

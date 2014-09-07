@@ -301,83 +301,133 @@ controller('upRecipesCtrl', function($scope, $routeParams, $http){
    ========================================================================== */
 
 controller('menuCtrl', function($scope, $http, globalFunction) {
-  var menu = {},
+  var menu = {
+      "name":'',
+      "lundi":[],
+      "mardi":[],
+      "mercredi":[],
+      "jeudi":[],
+      "vendredi":[],
+      "samedi":[],
+      "dimanche":[]
+      },
       menuList = document.getElementById('recipes');
 
   $scope.addMenu = function() {
-    menu = {
-      "name":$scope.menu.name,
-      "lundi":[
-        {
+    menu.name = $scope.menu.name;
+    if(typeof $scope.menu.lundi !== "undefined") {
+      if(typeof $scope.menu.lundi.midi !== "undefined") {
+        var lundiMidi = {
           "id":menuList.querySelector('[data-text="'+$scope.menu.lundi.midi+'"]').getAttribute('data-id'),
           "name":$scope.menu.lundi.midi
-        },
-        {
+        };
+        menu.lundi.splice(0, 1, lundiMidi);
+      }
+      if(typeof $scope.menu.lundi.soir !== "undefined") {
+        var lundiSoir = {
           "id":menuList.querySelector('[data-text="'+$scope.menu.lundi.soir+'"]').getAttribute('data-id'),
           "name":$scope.menu.lundi.soir
-        }
-      ],
-      "mardi":[
-        {
+        };
+        menu.lundi.splice(1, 1, lundiSoir);
+      }
+    }
+    if(typeof $scope.menu.mardi !== "undefined") {
+      if(typeof $scope.menu.mardi.midi !== "undefined") {
+        var mardiMidi = {
           "id":menuList.querySelector('[data-text="'+$scope.menu.mardi.midi+'"]').getAttribute('data-id'),
           "name":$scope.menu.mardi.midi
-        },
-        {
+        };
+        menu.mardi.splice(0, 1, mardiMidi);
+      }
+      if(typeof $scope.menu.mardi.soir !== "undefined") {
+        var mardiSoir = {
           "id":menuList.querySelector('[data-text="'+$scope.menu.mardi.soir+'"]').getAttribute('data-id'),
           "name":$scope.menu.mardi.soir
-        }
-      ],
-      "mercredi":[
-        {
+        };
+        menu.mardi.splice(1, 1, mardiSoir);
+      }
+    }
+    if(typeof $scope.menu.mercredi !== "undefined") {
+      if(typeof $scope.menu.mercredi.midi !== "undefined") {
+        var mercrediMidi = {
           "id":menuList.querySelector('[data-text="'+$scope.menu.mercredi.midi+'"]').getAttribute('data-id'),
           "name":$scope.menu.mercredi.midi
-        },
-        {
+        };
+        menu.mercredi.splice(0, 1, mercrediMidi);
+      }
+      if(typeof $scope.menu.mercredi.soir !== "undefined") {
+        var mercrediSoir = {
           "id":menuList.querySelector('[data-text="'+$scope.menu.mercredi.soir+'"]').getAttribute('data-id'),
           "name":$scope.menu.mercredi.soir
-        }
-      ],
-      "jeudi":[
-        {
+        };
+        menu.mercredi.splice(1, 1, mercrediSoir);
+      }
+    }
+    if(typeof $scope.menu.jeudi !== "undefined") {
+      if(typeof $scope.menu.jeudi.midi !== "undefined") {
+        var jeudiMidi = {
           "id":menuList.querySelector('[data-text="'+$scope.menu.jeudi.midi+'"]').getAttribute('data-id'),
           "name":$scope.menu.jeudi.midi
-        },
-        {
+        };
+        menu.jeudi.splice(0, 1, jeudiMidi);
+      }
+      if(typeof $scope.menu.mercredi.soir !== "undefined") {
+        var jeudiSoir = {
           "id":menuList.querySelector('[data-text="'+$scope.menu.jeudi.soir+'"]').getAttribute('data-id'),
           "name":$scope.menu.jeudi.soir
-        }
-      ],
-      "vendredi":[
-        {
+        };
+        menu.jeudi.splice(1, 1, jeudiSoir);
+      }
+    }
+    if(typeof $scope.menu.vendredi !== "undefined") {
+      if(typeof $scope.menu.vendredi.midi !== "undefined") {
+        var vendrediMidi = {
           "id":menuList.querySelector('[data-text="'+$scope.menu.vendredi.midi+'"]').getAttribute('data-id'),
           "name":$scope.menu.vendredi.midi
-        },
-        {
+        };
+        menu.vendredi.splice(0, 1, vendrediMidi);
+      }
+      if(typeof $scope.menu.vendredi.soir !== "undefined") {
+        var vendrediSoir = {
           "id":menuList.querySelector('[data-text="'+$scope.menu.vendredi.soir+'"]').getAttribute('data-id'),
           "name":$scope.menu.vendredi.soir
-        }
-      ],
-      "samedi":[
-        {
+        };
+        menu.vendredi.splice(1, 1, vendrediSoir);
+      }
+    }
+    if(typeof $scope.menu.samedi !== "undefined") {
+      if(typeof $scope.menu.samedi.midi !== "undefined") {
+        var samediMidi = {
           "id":menuList.querySelector('[data-text="'+$scope.menu.samedi.midi+'"]').getAttribute('data-id'),
           "name":$scope.menu.samedi.midi
-        },
-        {
+        };
+        menu.samedi.splice(0, 1, samediMidi);
+      }
+      if(typeof $scope.menu.samedi.soir !== "undefined") {
+        var samediSoir = {
           "id":menuList.querySelector('[data-text="'+$scope.menu.samedi.soir+'"]').getAttribute('data-id'),
           "name":$scope.menu.samedi.soir
-        }
-      ],
-      "dimanche":[
-        {
+        };
+        menu.samedi.splice(1, 1, samediSoir);
+      }
+    }
+    if(typeof $scope.menu.dimanche !== "undefined") {
+      if(typeof $scope.menu.dimanche.midi !== "undefined") {
+        var dimancheMidi = {
           "id":menuList.querySelector('[data-text="'+$scope.menu.dimanche.midi+'"]').getAttribute('data-id'),
           "name":$scope.menu.dimanche.midi
-        },
-        {
+        };
+        menu.dimanche.splice(0, 1, dimancheMidi);
+      }
+      if(typeof $scope.menu.dimanche.soir !== "undefined") {
+        var dimancheSoir = {
           "id":menuList.querySelector('[data-text="'+$scope.menu.dimanche.soir+'"]').getAttribute('data-id'),
           "name":$scope.menu.dimanche.soir
-        }
-      ]
-    };
+        };
+        menu.dimanche.splice(1, 1, dimancheSoir);
+      }
+    }
+
     $http
       .post('/menus', menu)
       .success(function() {
@@ -393,18 +443,23 @@ controller('menuCtrl', function($scope, $http, globalFunction) {
    12 = Get List Menus week
    ========================================================================== */
 
-controller('oldMenus', function($scope, $http, Restangular, $q){
-  var menus = Restangular.all('menus'),
-      listMenus = menus.getList();
-
-  listMenus.then(function(ArrayMenus) {
-    $scope.menus = ArrayMenus;
-    ArrayMenus.forEach(function(menus) {
-      $http.get(menus).success(function(data){
-        $scope.menu = data;
-      });
+controller('oldMenus', function($scope, $http){
+  $http.get('menus/').
+    success(function(menusUrl) {
+      for(var url in menusUrl) {
+        $scope.menus = [];
+        $http.get(menusUrl[url]).success(function(data){
+          $scope.menus.push(data);
+        })
+      }
     });
-  });
+
+  $scope.supMenu = function(id) {
+    if(confirm("Vous êtes sûr de vouloir supprimer ce menu ?") === true) {
+      $http.delete('/menus/menu/'+id);
+      window.location = '#/oldmenus';
+    }
+  };
 }).
 
 /* ==========================================================================
