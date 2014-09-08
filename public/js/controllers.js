@@ -13,7 +13,7 @@
    10 = Update one Recipe
    11 = Post a Menu Week
    12 = Get List Menus week
-   13 = Get one Menu Week
+   13 = Update a Menu Week
 
    ========================================================================== */
 
@@ -443,7 +443,7 @@ controller('menuCtrl', function($scope, $http, globalFunction) {
    12 = Get List Menus week
    ========================================================================== */
 
-controller('oldMenus', function($scope, $http){
+controller('oldMenus', function($scope, $http, $q, $timeout){
   $http.get('menus/').
     success(function(menusUrl) {
       for(var url in menusUrl) {
@@ -453,62 +453,48 @@ controller('oldMenus', function($scope, $http){
         })
       }
     });
-
   $scope.supMenu = function(id) {
+
     if(confirm("Vous êtes sûr de vouloir supprimer ce menu ?") === true) {
       $http.delete('/menus/menu/'+id);
       window.location = '#/oldmenus';
     }
   };
-}).
-
-/* ==========================================================================
-   13 = Get one Menu Week
-   ========================================================================== */
-
-controller('oneMenu', function($scope, $http, $q){
-  $http.get($scope.url).
-    success(function(data) {
-      $scope.menu = data;
-      
-      //console.log($scope.recipe.ingredients);
-    });
-  $scope.supMenu = function(id) {
-    if(confirm("Vous êtes sûr de vouloir supprimer ce menu ?") === true) {
-      $http.delete('/menus/menu/'+id);
-      window.location = '#/oldmenus';
-    }
-  };
-  $scope.getListeCourse = function() {
-    var menus = document.querySelectorAll('.menus > td'),
+  $scope.getListeCourse = function(id, name) {
+    var menus = document.querySelectorAll('.menus-'+id+' > td'),
         globalIngredientsArr = [],
+        menusSelected = {},
         newArray = [],
         paPromise = $q.defer(),
         sums = {},
         indice = {},
         shopList = {};
 
+    $http.get('/menus/menu/'+id).success(function(d) {
+      menusSelected = d;
+    });
     
     Array.prototype.forEach.call(menus, function(el, i){
       var id = el.getAttribute('data-id');
       $http.get('/recipes/recipe/'+id).
-        success(function(data) {
-          
+        then(function(data) {
             //console.log(ingredient.id);
-            var ingredients = data.ingredients,
+            
+            var ingredients = data.data.ingredients,
                 ingredientsArray = [];
             ingredients.forEach(function(ingredient) {
               $http.get('/ingredients/ingredient/'+ingredient.id).
-              success(function(data) {
-                globalIngredientsArr.push([data.name, ingredient.qte, ingredient.indice]);
-              });
-              
-            });
-            paPromise.resolve(globalIngredientsArr);
-        });
-    });
+              then(function(data) {
 
-    setTimeout(function(){
+                globalIngredientsArr.push([data.data.name, ingredient.qte, ingredient.indice]);
+                paPromise.resolve(globalIngredientsArr);
+              //
+            });
+            
+        });
+      });
+    });
+    $timeout(function(){
       $scope.$apply(function(){
         paPromise.promise.then(function(data){
           
@@ -523,9 +509,9 @@ controller('oneMenu', function($scope, $http, $q){
           });
 
           shopList = {
-            "name" : 'Liste de course de ' + $scope.menu.name,
-            "idmenu" : $scope.menu.id,
-            "menuname" : $scope.menu.name,
+            "name" : 'Liste de course de ' + name,
+            "idmenu" : id,
+            "menuname" : name,
             "shop" : []
           };
 
@@ -537,92 +523,24 @@ controller('oneMenu', function($scope, $http, $q){
               "qte":sums[key]+indice[key]
             });
           }
+          
           $http.post('/shops', shopList).success(function(data) {
-            var upMenu = {
-              "name":$scope.menu.name,
-              "lundi":[
-                {
-                  "name":$scope.menu.lundi[0].name,
-                  "id":$scope.menu.lundi[0].id
-                },
-                {
-                  "name":$scope.menu.lundi[1].name,
-                  "id":$scope.menu.lundi[1].id
-                }
-              ],
-              "mardi":[
-                {
-                  "name":$scope.menu.mardi[0].name,
-                  "id":$scope.menu.mardi[0].id
-                },
-                {
-                  "name":$scope.menu.mardi[1].name,
-                  "id":$scope.menu.mardi[1].id
-                }
-              ],
-              "mercredi":[
-                {
-                  "name":$scope.menu.mercredi[0].name,
-                  "id":$scope.menu.mercredi[0].id
-                },
-                {
-                  "name":$scope.menu.mercredi[1].name,
-                  "id":$scope.menu.mercredi[1].id
-                }
-              ],
-              "jeudi":[
-                {
-                  "name":$scope.menu.jeudi[0].name,
-                  "id":$scope.menu.jeudi[0].id
-                },
-                {
-                  "name":$scope.menu.jeudi[1].name,
-                  "id":$scope.menu.jeudi[1].id
-                }
-              ],
-              "vendredi":[
-                {
-                  "name":$scope.menu.vendredi[0].name,
-                  "id":$scope.menu.vendredi[0].id
-                },
-                {
-                  "name":$scope.menu.vendredi[1].name,
-                  "id":$scope.menu.vendredi[1].id
-                }
-              ],
-              "samedi":[
-                {
-                  "name":$scope.menu.samedi[0].name,
-                  "id":$scope.menu.samedi[0].id
-                },
-                {
-                  "name":$scope.menu.samedi[1].name,
-                  "id":$scope.menu.samedi[1].id
-                }
-              ],
-              "dimanche":[
-                {
-                  "name":$scope.menu.dimanche[0].name,
-                  "id":$scope.menu.dimanche[0].id
-                },
-                {
-                  "name":$scope.menu.dimanche[1].name,
-                  "id":$scope.menu.dimanche[1].id
-                }
-              ],
-              "id_listshop":data.id
-            };
-            $http.put('/menus/menu/'+$scope.menu.id, upMenu);
+            menusSelected.id_listshop = data.id;
+            delete menusSelected.id;
+
+            var jsonMenu = JSON.stringify(menusSelected);
+            $http.put('/menus/menu/'+id, jsonMenu);
           });
         });
       });
-    }, 500);
-    
+    }, 3000);
   };
-  /*var urlIngredient = document.querySelectorAll('.url-ingredient');
-
-  console.log(urlIngredient);*/
 }).
+
+/* ==========================================================================
+   13 = Update a Menu Week
+   ========================================================================== */
+
 controller('upMenuCtrl', function($scope, $routeParams, $http){
   var id = $routeParams.id,
       upMenu = {},
