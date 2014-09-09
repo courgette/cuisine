@@ -12,7 +12,7 @@
    9 = Get one ingredient
    10 = Update one Recipe
    11 = Post a Menu Week
-   12 = Get List Menus week
+   12 = Get List Menus week, sup Menu and get Liste course
    13 = Update a Menu Week
 
    ========================================================================== */
@@ -271,8 +271,6 @@ controller('upRecipesCtrl', function($scope, $routeParams, $http){
           selectindice = el.querySelector('.ingredient-indice');
           valueOptionIndice = selectindice.options[selectindice.options.selectedIndex].value;
 
-      //console.log(selectindice);
-
       var idIngredient = ingredientsList.querySelector('[data-text='+ingredientValue+']').getAttribute('data-id');
       
       globalIngredientsArr.push({
@@ -440,7 +438,7 @@ controller('menuCtrl', function($scope, $http, globalFunction) {
 }).
 
 /* ==========================================================================
-   12 = Get List Menus week
+   12 = Get List Menus week, sup Menu and get Liste course
    ========================================================================== */
 
 controller('oldMenus', function($scope, $http, $q, $timeout){
